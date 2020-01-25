@@ -10,6 +10,7 @@ public class FollowPlayer : MonoBehaviour
     public float smoothSpeed;
     public float maxZoom;
 
+    //test
     // Update is called once per frame
     void FixedUpdate()
     {
