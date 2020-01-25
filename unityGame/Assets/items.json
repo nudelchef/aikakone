@@ -1,0 +1,36 @@
+{
+  "0": {
+    "itemName": "Hands",
+    "itemType": "melee",
+    "weaponDamage": "50",
+    "meleeRange": "1",
+    "meleeRateMin": "200"
+  },
+  "1": {
+    "itemName": "AK47",
+    "itemType": "gun",
+    "weaponDamage": "100",
+    "feuerRateMin": "900",
+    "ammoCapacity": "30",
+    "magCapacity": "2",
+    "reloadTime": "500",
+    "bulletSpeed": "3000"
+  },
+  "2": {
+    "itemName": "Knife",
+    "weaponDamage": "75",
+    "itemType": "melee",
+    "meleeRange": "1",
+    "meleeRateMin": "120"
+  },
+  "3": {
+    "itemName": "VP9",
+    "itemType": "gun",
+    "weaponDamage": "75",
+    "feuerRateMin": "250",
+    "ammoCapacity": "15",
+    "magCapacity": "2",
+    "reloadTime": "400",
+    "bulletSpeed": "3000"
+  },
+}

@@ -1,0 +1,16 @@
+Base path: 'C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=4 insize=1176 outsize=772 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=3070 outsize=48128 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=18299 outsize=8518 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=18299 outsize=10714 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=5435 outsize=6437 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=1806 outsize=1385 ok=1
+
+Quitting shader compiler process
