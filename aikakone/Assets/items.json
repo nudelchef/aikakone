@@ -3,13 +3,14 @@
     "itemName": "Hands",
     "itemType": "melee",
     "weaponDamage": "50",
-    "meleeRange": "1",
+    "range": "1",
     "meleeRateMin": "200"
   },
   "1": {
     "itemName": "AK47",
     "itemType": "gun",
     "weaponDamage": "100",
+    "range": "1",
     "feuerRateMin": "900",
     "ammoCapacity": "30",
     "magCapacity": "2",
@@ -19,6 +20,7 @@
   "2": {
     "itemName": "Knife",
     "weaponDamage": "75",
+    "range": "1",
     "itemType": "melee",
     "meleeRange": "1",
     "meleeRateMin": "120"
@@ -26,6 +28,7 @@
   "3": {
     "itemName": "VP9",
     "itemType": "gun",
+    "range": "1",
     "weaponDamage": "75",
     "feuerRateMin": "250",
     "ammoCapacity": "15",

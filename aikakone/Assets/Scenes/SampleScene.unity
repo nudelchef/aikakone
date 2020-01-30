@@ -1049,16 +1049,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_Name
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 545996894607366527, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
         type: 3}
       propertyPath: ammoLeft
@@ -1139,6 +1129,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f73ef289573c1824c9ab181e59a6e426, type: 2}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_Name
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d153f305c409a54fbb9d0e3ddbc18ad, type: 3}
 --- !u!1 &328334121
@@ -1983,7 +1983,7 @@ GameObject:
   - component: {fileID: 571117585}
   - component: {fileID: 571117587}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: timerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,8 +2026,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 00:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -4276,8 +4274,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: /2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -5092,16 +5088,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_Name
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 545996894607366527, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
         type: 3}
       propertyPath: ammoLeft
@@ -5182,6 +5168,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 89a0734faa5bbe64d9ab63ddd98471df, type: 2}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_Name
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d153f305c409a54fbb9d0e3ddbc18ad, type: 3}
 --- !u!1 &1796054522
@@ -5219,6 +5215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spieler: {fileID: 463605394}
+  spielerLeben: 100
   moveSpeed: 5
   runingSpeed: 10
   patrolPoints:
@@ -5229,6 +5226,8 @@ MonoBehaviour:
   viewAngel: 110
   viewRadius: 12.5
   viewRememberTime: 2000
+  isEnemyMelee: 0
+  meleeRadius: 16667
   agent: {fileID: 1796054529}
 --- !u!54 &1796054524
 Rigidbody:
@@ -5971,8 +5970,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 29/30
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -6264,16 +6261,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_Name
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 545996894607366527, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
         type: 3}
       propertyPath: ammoLeft
@@ -6354,5 +6341,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 032514efb73dbcc439ec4670d777e5be, type: 2}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_Name
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698020851096157384, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d153f305c409a54fbb9d0e3ddbc18ad, type: 3}

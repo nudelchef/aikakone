@@ -2,25 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using SimpleJSON;
+using System.IO;
+
 
 public class enemy : MonoBehaviour
 {
+    JSONNode enemyJSON;
+    JSONNode items;
     public Transform spieler;
+    public int spielerLeben = 100;
+    private float spielerEntferung;
     private Rigidbody rb;
     private Vector3 movement;
     private float lastSeen = float.MinValue;
-    public float moveSpeed = 5f;
+    public float movementSpeed = 5f;
     public float runingSpeed = 20f;
     public Vector3[] patrolPoints;
-
+    public float enemyPrecision;
+    public float range;
     public float health = 100f;
 
 
     //public vars for sight
-    public float viewAngel = 90f;
+    public float viewAngel = 120f;
     public float viewRadius = 10f;
     public float viewRememberTime = 3000f;
 
+    //Melee or Distance
+    public bool isEnemyMelee = false; 
+    public float meleeRadius;
+    private float enemyDamage;
 
     private Vector3 targetPosition;
     private bool searchRunning = false;
@@ -35,12 +47,26 @@ public class enemy : MonoBehaviour
 
     void Start()
     {
+        //loading item.json
+        string pathToItemJson = Application.dataPath + "/items.json";
+        items = JSON.Parse(File.ReadAllText(pathToItemJson));
+
+        //loading enemy.json and setting stats
+        string pathToEnemyJson = Application.dataPath + "/enemy.json";
+        enemyJSON = JSON.Parse(File.ReadAllText(pathToEnemyJson));
         rb = this.GetComponent<Rigidbody>();
+        movementSpeed = float.Parse(enemyJSON[0]["movementSpeed"]);
+        runingSpeed = float.Parse(enemyJSON[0]["runningSpeed"]);
+        health = float.Parse(enemyJSON[0]["health"]);
+        string itemId = enemyJSON[0]["itemId"];
+        enemyDamage = float.Parse(items[itemId]["weaponDamage"]);
+        range = float.Parse(items[itemId]["range"]);
+
     }
 
     void FixedUpdate()
     {
-
+            
         //die
         if(health<1)
             Destroy(gameObject);
@@ -71,6 +97,16 @@ public class enemy : MonoBehaviour
                         {
                             //Enemy sees Player or Bullet
                             lastSeen = Time.time * 1000;
+
+                            float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - objects.transform.position.x),2) + Mathf.Pow((spieler.transform.position.y - objects.transform.position.y),2));
+
+                            //Enemy in fight range
+                            if(spielerEntfernung<meleeRadius)
+                            {
+                                //spielerLeben = spielerLeben - enemyDamage;
+                                
+                                return;
+                            }
                         }
                     }
                 }
@@ -84,7 +120,25 @@ public class enemy : MonoBehaviour
             patrolRunning = false;
             StopCoroutine("enemySearch");
             searchRunning = false;
-            agent.speed = runingSpeed;
+
+            //Checks how daring the enemy can be
+            //Less daring if near death
+            if (health<=25f)
+            {
+                agent.speed = runingSpeed/2f;
+            }
+            //More daring if player's near death
+            else if(spielerLeben<=25f)
+            {
+                agent.speed = runingSpeed*1.2f;
+                meleeRadius = meleeRadius - 1f;
+            }
+            //normal speed if both ok
+            else
+            {
+                agent.speed = runingSpeed;
+            }
+            
             targetPosition = spieler.transform.position;
             agent.SetDestination(targetPosition);
         }
@@ -96,7 +150,7 @@ public class enemy : MonoBehaviour
                 //start search if not patroling
                 if (!searchRunning)
                 {
-                    agent.speed = moveSpeed;
+                    agent.speed = movementSpeed;
                     searchRunning = true;
                     StartCoroutine("enemySearch");
                 }

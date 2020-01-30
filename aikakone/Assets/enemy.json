@@ -1,0 +1,11 @@
+{
+  "0": {
+    "enemyName": "Muschi Klaus",
+    "enemyHealth": "100",
+    "itemId": "0",
+    "enemyPrecision": "0.5",
+    "movementSpeed": "5",
+    "runningSpeed":  "20",
+    "animationId": "0"
+  }
+}
