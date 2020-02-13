@@ -13,6 +13,7 @@ ScriptsOnlyBuild:
     - itemStats
     - magazin
     - melee
+    - objects
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -139,19 +140,21 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11728}
     - Class: 114
-      Script: {instanceID: 11814}
+      Script: {instanceID: 11798}
     - Class: 114
-      Script: {instanceID: 11950}
+      Script: {instanceID: 11816}
     - Class: 114
-      Script: {instanceID: 11954}
+      Script: {instanceID: 11952}
     - Class: 114
-      Script: {instanceID: 11984}
+      Script: {instanceID: 11956}
     - Class: 114
-      Script: {instanceID: 12042}
+      Script: {instanceID: 11986}
     - Class: 114
-      Script: {instanceID: 12160}
+      Script: {instanceID: 12044}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 12162}
+    - Class: 114
+      Script: {instanceID: 12188}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -333,18 +336,6 @@ ScriptsOnlyBuild:
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
     className: NetworkTransform
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: UnityEngine.Advertisements.dll
-    namespaceName: UnityEngine.Advertisements
-    className: CallbackExecutor
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: UnityEngine.Advertisements.dll
-    namespaceName: UnityEngine.Advertisements.Editor
-    className: Placeholder
   - hash:
       serializedVersion: 2
       Hash: 094b5d0931850468ca87a34328b0e72d
@@ -861,6 +852,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: TMPro.Examples
     className: Benchmark01_UGUI
+  - hash:
+      serializedVersion: 2
+      Hash: 5cb1da79ffb5b05fd34c3f693e04294b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: objects
   - hash:
       serializedVersion: 2
       Hash: f336e086360abe49a3323e5f1583c35a

@@ -7,24 +7,24 @@ using System.IO;
 
 public class objects : MonoBehaviour
 {
-    JSONNode objects;
+    JSONNode objectsJSON;
     public string objectsName;
-    public int objectsHealth;
+    public float objectsHealth;
 
     // Start is called before the first frame update
     void Start()
     {
         //loading objectsJson and setting stats
         string pathToObjectsJson = Application.dataPath + "/objects.json";
-        objects = JSON.Parse(File.ReadAllText(pathToObjectsJson));
+        objectsJSON = JSON.Parse(File.ReadAllText(pathToObjectsJson));
         objectsHealth = float.Parse(objectsJSON[0]["objectsHealth"]);
-        objectsName = string.Parse(pathToObjectsJson[0]["objectsName"]);
+        string objectsName = objectsJSON[0]["objectsName"];
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if object gets under 1hp, it gets destroyed
+        //if object has 0hp, it gets destroyed
         if (objectsHealth == 0)
             Destroy(gameObject);
     }
