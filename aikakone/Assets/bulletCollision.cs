@@ -19,6 +19,11 @@ public class bulletCollision : MonoBehaviour
                 hitInfo.GetComponent<enemy>().health = hitInfo.GetComponent<enemy>().health - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
             }
             catch { }
+            try
+            {
+                hitInfo.GetComponent<objects>().objectsHealth = hitInfo.GetComponent<objects>().objectsHealth - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+            }
+            catch { }
             Destroy(gameObject);
         }
     }

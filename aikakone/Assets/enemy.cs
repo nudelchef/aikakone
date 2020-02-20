@@ -22,6 +22,7 @@ public class enemy : MonoBehaviour
     public float enemyPrecision;
     public float range;
     public float health = 100f;
+    public string enemyID;
 
 
     //public vars for sight
@@ -52,21 +53,21 @@ public class enemy : MonoBehaviour
         items = JSON.Parse(File.ReadAllText(pathToItemJson));
 
         //loading enemy.json and setting stats
+        enemyID = this.name.Substring(1);
         string pathToEnemyJson = Application.dataPath + "/enemy.json";
         enemyJSON = JSON.Parse(File.ReadAllText(pathToEnemyJson));
         rb = this.GetComponent<Rigidbody>();
-        movementSpeed = float.Parse(enemyJSON[0]["movementSpeed"]);
-        runingSpeed = float.Parse(enemyJSON[0]["runningSpeed"]);
-        health = float.Parse(enemyJSON[0]["health"]);
-        string itemId = enemyJSON[0]["itemId"];
+        movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
+        runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
+        health = float.Parse(enemyJSON[enemyID]["health"]);
+        string itemId = enemyJSON[enemyID]["itemId"];
         enemyDamage = float.Parse(items[itemId]["weaponDamage"]);
         range = float.Parse(items[itemId]["range"]);
-
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureId"]); //Setzt Texture
     }
 
     void FixedUpdate()
     {
-            
         //die
         if(health<1)
             Destroy(gameObject);

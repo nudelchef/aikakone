@@ -70,7 +70,7 @@ public class item : MonoBehaviour
         //Hebe nähestes Item auf wenn in pickUpRange
         if (smallestDistance < pickupRange)
         {
-            string temp = allItems[smallestDistanceIndex].name;
+            string temp = allItems[smallestDistanceIndex].name.Substring(1);
             itemInHandType = items[temp]["itemType"];
             if (itemInHandType == "gun")
             {
@@ -100,7 +100,7 @@ public class item : MonoBehaviour
         GameObject b = Instantiate(itemPrefab) as GameObject;//Erstellt Objekt 
         b.transform.position = position; //Setzt position
         b.transform.rotation = Quaternion.Euler(0f, Random.Range(-360f, 360f), 0f); //Setzt zufällige rotation
-        b.name = itemId; //Setzt Objektname
+        b.name = "i"+itemId; //Setzt Objektname
         b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + itemId); //Setzt Texture
         return b;
     }
