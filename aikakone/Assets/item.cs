@@ -143,7 +143,7 @@ public class item : MonoBehaviour
     {
         //Set all Weapon stats
         spieler.GetComponent<melee>().weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
-        spieler.GetComponent<melee>().meleeRange = float.Parse(items[itemId]["meleeRange"]);
+        spieler.GetComponent<melee>().meleeRange = float.Parse(items[itemId]["range"]);
         spieler.GetComponent<melee>().meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
         spieler.GetComponent<crosshair>().isMelee = true;
 

@@ -59,7 +59,7 @@ public class enemy : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
-        health = float.Parse(enemyJSON[enemyID]["health"]);
+        health = float.Parse(enemyJSON[enemyID]["enemyHealth"]);
         string itemId = enemyJSON[enemyID]["itemId"];
         enemyDamage = float.Parse(items[itemId]["weaponDamage"]);
         range = float.Parse(items[itemId]["range"]);
