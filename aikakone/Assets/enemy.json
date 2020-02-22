@@ -5,7 +5,7 @@
     "itemId": "0",
     "enemyPrecision": "0.5",
     "movementSpeed": "5",
-    "runningSpeed": "20",
+    "runningSpeed": "10",
     "animationId": "0",
     "textureId": "0"
   }

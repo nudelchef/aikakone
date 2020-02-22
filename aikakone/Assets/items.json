@@ -11,7 +11,7 @@
     "itemType": "gun",
     "weaponDamage": "100",
     "range": "1",
-    "feuerRateMin": "900",
+    "feuerRateMin": "800",
     "ammoCapacity": "30",
     "magCapacity": "2",
     "reloadTime": "500",
@@ -22,15 +22,15 @@
     "weaponDamage": "75",
     "range": "1",
     "itemType": "melee",
-    "meleeRange": "1",
-    "meleeRateMin": "120"
+    "meleeRange": "2",
+    "meleeRateMin": "240"
   },
   "3": {
-    "itemName": "VP9",
+    "itemName": "UZI",
     "itemType": "gun",
     "range": "1",
     "weaponDamage": "75",
-    "feuerRateMin": "250",
+    "feuerRateMin": "600",
     "ammoCapacity": "15",
     "magCapacity": "2",
     "reloadTime": "400",

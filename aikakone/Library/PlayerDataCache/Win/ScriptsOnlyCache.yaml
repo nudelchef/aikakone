@@ -4,6 +4,7 @@ ScriptsOnlyBuild:
     - FollowPlayer
     - PlayerMovement
     - UnityEngine.AI.NavMeshSurface
+    - audioManager
     - bulletCollision
     - colorCycler
     - countdown
@@ -50,6 +51,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     com.unity.multiplayer-hlapi.Runtime.dll:
+    - UnityEngine.Networking.NetworkCallbacks
     - UnityEngine.Networking.NetworkIdentity
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
@@ -80,6 +82,10 @@ ScriptsOnlyBuild:
     - Class: 72
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -155,6 +161,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12162}
     - Class: 114
       Script: {instanceID: 12188}
+    - Class: 114
+      Script: {instanceID: 15562}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -170,6 +178,8 @@ ScriptsOnlyBuild:
     - Class: 195
       Script: {instanceID: 0}
     - Class: 212
+      Script: {instanceID: 0}
+    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -506,7 +516,7 @@ ScriptsOnlyBuild:
     className: TMP_TextEventCheck
   - hash:
       serializedVersion: 2
-      Hash: 78a3fabb6e6df4ad2e6a297cb6fd2706
+      Hash: 126f17270ed8c00e509cff7f0de38aee
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: magazin
@@ -806,7 +816,7 @@ ScriptsOnlyBuild:
     className: TMP_TextInfoDebugTool
   - hash:
       serializedVersion: 2
-      Hash: 29f9321a76de8e4ab38f8e47d0e5606d
+      Hash: e9f4a4360da160c65668c18a80f5156f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: enemy
@@ -908,7 +918,7 @@ ScriptsOnlyBuild:
     className: Benchmark02
   - hash:
       serializedVersion: 2
-      Hash: b54eae64cd0bbc7d7d38065fb940e6cc
+      Hash: 9c7e85d3e0d205a8b1fb2b6ef01967d3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: crosshair
@@ -938,7 +948,7 @@ ScriptsOnlyBuild:
     className: VertexZoom
   - hash:
       serializedVersion: 2
-      Hash: 3f4f05d8d2bca3689a554354eabd3a81
+      Hash: d54b378c494632ad5ab2053a23a9bb38
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: melee
@@ -1128,7 +1138,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: audioManager
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/DSteger/Desktop/Schulprojekt/aikakone/aikakone/Detektei Stahl.exe
+  playerPath: E:/spiel/testSpiel.exe

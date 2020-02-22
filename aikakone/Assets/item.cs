@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using SimpleJSON;
+using static audioManager;
 
 public class item : MonoBehaviour
 {
@@ -75,6 +76,7 @@ public class item : MonoBehaviour
             if (itemInHandType == "gun")
             {
                 dropItem(itemInHandId);
+                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/pickup"), spieler);//pickup sound effect
                 addGunToInventory(temp);
                 GameObject.Find("ammoCapacityText").GetComponent<magazin>().ammoLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().ammoLeft;
                 GameObject.Find("ammoCapacityText").GetComponent<magazin>().magLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().magLeft;
@@ -83,6 +85,7 @@ public class item : MonoBehaviour
             else if (itemInHandType == "melee")
             {
                 dropItem(itemInHandId);
+                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/pickup"), spieler);//pickup sound effect
                 addMeleeToInventory(temp);
             }
 
@@ -109,6 +112,7 @@ public class item : MonoBehaviour
     {
         if (itemInHandId != "0")
         {
+            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/drop"), spieler);//drop sound effect
             //Stop current Reload
             GameObject.Find("ammoCapacityText").GetComponent<magazin>().stopReload();
             //Create Item Object
@@ -132,6 +136,7 @@ public class item : MonoBehaviour
         spieler.GetComponent<crosshair>().reloadTime = float.Parse(items[itemId]["reloadTime"]);
         spieler.GetComponent<crosshair>().bulletSpeed = float.Parse(items[itemId]["bulletSpeed"]);
         spieler.GetComponent<crosshair>().isMelee = false;
+        spieler.GetComponent<crosshair>().itemId = itemId;
 
         itemInHandId = itemId;
         itemInHand = true;
@@ -146,6 +151,7 @@ public class item : MonoBehaviour
         spieler.GetComponent<melee>().meleeRange = float.Parse(items[itemId]["range"]);
         spieler.GetComponent<melee>().meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
         spieler.GetComponent<crosshair>().isMelee = true;
+        spieler.GetComponent<melee>().itemId = itemId;
 
         itemInHandId = itemId;
         itemInHand = true;

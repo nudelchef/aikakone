@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static audioManager;
 
 public class crosshair : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class crosshair : MonoBehaviour
     public float reloadTime = 0.5f;
     public float bulletSpeed = 3000f;
     public bool isMelee;
+    public string itemId = "1";
 
 
     //only used in enemy.cs for hearing
@@ -55,6 +57,7 @@ public class crosshair : MonoBehaviour
                     {
                         //mag not empty
                         canShoot = true;
+                        audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId),spieler);//shoot sound effect
 
                         float distance = differnce.magnitude;
                         Vector3 direction = differnce / distance;

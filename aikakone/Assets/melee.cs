@@ -10,6 +10,7 @@ public class melee : MonoBehaviour
     public float weaponDamage = 50f;
     public float meleeRange = 1f;
     public float meleeRateMin = 120f;
+    public string itemId;
 
     void FixedUpdate()
     {
@@ -25,6 +26,7 @@ public class melee : MonoBehaviour
                      {
                             try
                             {
+                                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId),spieler);
                                 hitInfo[i].GetComponent<enemy>().health = hitInfo[i].GetComponent<enemy>().health - weaponDamage;
                             }
                             catch { }

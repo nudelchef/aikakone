@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using TMPro;
+using static audioManager;
 
 public class magazin : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class magazin : MonoBehaviour
     private float magCapacity;
     public float ammoLeft;
     public float magLeft;
+    public string itemId;
+
+    private bool reloading = false;
 
     private float reloadTime;
 
@@ -24,6 +28,7 @@ public class magazin : MonoBehaviour
         ammoCapacity = GameObject.Find("spieler").GetComponent<crosshair>().ammoCapacity;
         magCapacity = GameObject.Find("spieler").GetComponent<crosshair>().magCapacity;
         reloadTime = GameObject.Find("spieler").GetComponent<crosshair>().reloadTime;
+        itemId = GameObject.Find("spieler").GetComponent<crosshair>().itemId;
 
          magLeft = magCapacity;
          ammoLeft = ammoCapacity;
@@ -69,6 +74,11 @@ public class magazin : MonoBehaviour
     }
     IEnumerator reloadEnum()
     {
+        if (!reloading)
+        {
+            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId + "reload"),spieler);
+        }
+        reloading = true;
         yield return new WaitForSeconds(reloadTime/1000f);
         if (magLeft > 0)
         {
@@ -77,6 +87,7 @@ public class magazin : MonoBehaviour
             updateAmmoCount();
             magEmpty = false;
         }
+        reloading = false;
         StopCoroutine("reloadEnum");
     }
 
