@@ -12,24 +12,28 @@ public class audioManager : MonoBehaviour
     void Start()
     {
         camera = GameObject.Find("Camera");
-        playClipOnObject(Resources.Load<AudioClip>("audio/music/1"),camera, musicVolume, true);
+        playMusicOnObject(Resources.Load<AudioClip>("audio/music/1"),camera, musicVolume, true);
     }
 
-    private static int j = 0;
-    public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn,float volume = -1f, bool loop = false)
+    public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn,float volume = -1f)
     {
         if (volume < 1)
         {
             volume = sfxVolume;
         }
-        objectToPlayOn.GetComponents<AudioSource>()[j].clip = clip; //Load Audio Clip
-        objectToPlayOn.GetComponents<AudioSource>()[j].Play(); //Play Clip
-        objectToPlayOn.GetComponents<AudioSource>()[j].volume = volume; //set clip volume
-        objectToPlayOn.GetComponents<AudioSource>()[j].loop = loop; //Loop clip
-        j++;
-        if (j > objectToPlayOn.GetComponents<AudioSource>().Length - 1)
+        objectToPlayOn.GetComponent<AudioSource>().volume = volume; //set clip volume
+        objectToPlayOn.GetComponent<AudioSource>().PlayOneShot(clip, 1f); //Play Clip
+    }
+    private static int j = 0;
+    public static void playMusicOnObject(AudioClip clip, GameObject objectToPlayOn, float volume = -1f, bool loop = false)
+    {
+        if (volume < 1)
         {
-            j = 0;
+            volume = musicVolume;
         }
+        objectToPlayOn.GetComponent<AudioSource>().clip = clip; //Load Audio Clip
+        objectToPlayOn.GetComponent<AudioSource>().volume = volume; //set clip volume
+        objectToPlayOn.GetComponent<AudioSource>().loop = loop; //Loop clip
+        objectToPlayOn.GetComponent<AudioSource>().Play(); //Play Clip
     }
 }
