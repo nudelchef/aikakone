@@ -17,7 +17,7 @@ public class audioManager : MonoBehaviour
 
     public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn,float volume = -1f)
     {
-        if (volume < 1)
+        if (volume < 0)
         {
             volume = sfxVolume;
         }
@@ -27,7 +27,7 @@ public class audioManager : MonoBehaviour
     private static int j = 0;
     public static void playMusicOnObject(AudioClip clip, GameObject objectToPlayOn, float volume = -1f, bool loop = false)
     {
-        if (volume < 1)
+        if (volume < 0)
         {
             volume = musicVolume;
         }
