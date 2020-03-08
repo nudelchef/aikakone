@@ -21,8 +21,9 @@ public class audioManager : MonoBehaviour
         {
             volume = sfxVolume;
         }
-        objectToPlayOn.GetComponent<AudioSource>().volume = volume; //set clip volume
-        objectToPlayOn.GetComponent<AudioSource>().PlayOneShot(clip, 1f); //Play Clip
+        AudioSource source = objectToPlayOn.GetComponent<AudioSource>();
+        source.volume = volume; //set clip volume
+        source.PlayOneShot(clip, 1f); //Play Clip
     }
     private static int j = 0;
     public static void playMusicOnObject(AudioClip clip, GameObject objectToPlayOn, float volume = -1f, bool loop = false)
@@ -31,9 +32,10 @@ public class audioManager : MonoBehaviour
         {
             volume = musicVolume;
         }
-        objectToPlayOn.GetComponent<AudioSource>().clip = clip; //Load Audio Clip
-        objectToPlayOn.GetComponent<AudioSource>().volume = volume; //set clip volume
-        objectToPlayOn.GetComponent<AudioSource>().loop = loop; //Loop clip
-        objectToPlayOn.GetComponent<AudioSource>().Play(); //Play Clip
+        AudioSource source = objectToPlayOn.GetComponent<AudioSource>();
+        source.clip = clip; //Load Audio Clip
+        source.volume = volume; //set clip volume
+        source.loop = loop; //Loop clip
+        source.Play(); //Play Clip
     }
 }
