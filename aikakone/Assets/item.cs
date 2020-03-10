@@ -4,13 +4,13 @@ using UnityEngine;
 using System.IO;
 using SimpleJSON;
 using static audioManager;
+using static enemy;
 
 public class item : MonoBehaviour
 {
     string pathToItemJson = "";
     JSONNode items;
     public GameObject itemPrefab;
-
 
     public GameObject spieler;
     public float pickupRange = 1;
@@ -26,6 +26,8 @@ public class item : MonoBehaviour
 
     public string itemInHandId = "";
     public string itemInHandType = "";
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +35,11 @@ public class item : MonoBehaviour
         items = JSON.Parse(File.ReadAllText(pathToItemJson));
 
         addMeleeToInventory("0");
+
+        for(int i = 0; i < 10; i++)
+        {
+            GameObject enemy = spawnEnemy("1", new Vector3(0f, 0f, 0f), 0f); //Spawn enemy
+        }
     }
 
     // Update is called once per frame

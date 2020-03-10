@@ -51,7 +51,6 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     com.unity.multiplayer-hlapi.Runtime.dll:
-    - UnityEngine.Networking.NetworkCallbacks
     - UnityEngine.Networking.NetworkIdentity
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
@@ -162,7 +161,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12188}
     - Class: 114
-      Script: {instanceID: 15562}
+      Script: {instanceID: 13070}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -816,7 +815,7 @@ ScriptsOnlyBuild:
     className: TMP_TextInfoDebugTool
   - hash:
       serializedVersion: 2
-      Hash: e9f4a4360da160c65668c18a80f5156f
+      Hash: 9fb6f9db55a5c59d894f838f2ff6e6f1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: enemy
@@ -1147,4 +1146,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: E:/spiel/testSpiel.exe
+  playerPath: D:/aikakone/aikakone/aikakone/testSpiel.exe

@@ -10,7 +10,7 @@ public class enemy : MonoBehaviour
 {
     JSONNode enemyJSON;
     JSONNode items;
-    public Transform spieler;
+    public GameObject spieler;
     public int spielerLeben = 100;
     private float spielerEntferung;
     private Rigidbody rb;
@@ -23,6 +23,8 @@ public class enemy : MonoBehaviour
     public float range;
     public float health = 100f;
     public string enemyID;
+    public int timer;
+    public int timeWonInSeconds;
 
 
     //public vars for sight
@@ -43,8 +45,19 @@ public class enemy : MonoBehaviour
     private int patrolPos = 0;
     private bool startSide = true;
 
+    private bool enemyIsSet = false;
 
     public NavMeshAgent agent;
+
+    public static GameObject spawnEnemy(string enemyId, Vector3 position, float rotation)
+    {
+        GameObject b = Instantiate(Resources.Load("Prefabs/enemy")) as GameObject; //Creates object 
+        b.transform.position = position; //Sets position
+        b.transform.rotation = Quaternion.Euler(0f, rotation, 0f); //Sets random rotation
+        b.name = "e" + enemyId; //Sets objectname
+        b.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyId); //Sets texture
+        return b;
+    }
 
     void Start()
     {
@@ -60,17 +73,28 @@ public class enemy : MonoBehaviour
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
         health = float.Parse(enemyJSON[enemyID]["enemyHealth"]);
+        timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
         string itemId = enemyJSON[enemyID]["itemId"];
         enemyDamage = float.Parse(items[itemId]["weaponDamage"]);
         range = float.Parse(items[itemId]["range"]);
-        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureId"]); //Setzt Texture
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureId"]); //Sets texture
+
+        //Wenn Keine Patrol Points angegeben starte suche
+        if (patrolPoints.Length < 1)
+        {
+            searchRunning = true;
+            patrolRunning = false;
+        }
     }
 
     void FixedUpdate()
     {
         //die
         if(health<1)
+        {
             Destroy(gameObject);
+            timer = timer + timeWonInSeconds; //adds reward-time if enemy is killed
+        }
 
         //enemy sight
         Collider[] objectsInRadius = Physics.OverlapSphere(transform.position, viewRadius);

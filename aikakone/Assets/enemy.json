@@ -7,6 +7,7 @@
     "movementSpeed": "5",
     "runningSpeed": "10",
     "animationId": "0",
-    "textureId": "0"
+    "textureId": "0",
+    "timeWonInSeconds": "20"
   }
 }
