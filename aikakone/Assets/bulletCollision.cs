@@ -12,7 +12,7 @@ public class bulletCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider hitInfo)
     {
-        if(hitInfo.name!="boden"&& hitInfo.name != "spieler" && hitInfo.name != "bullet(Clone)" && hitInfo.tag != "item")
+        if(hitInfo.name!="boden"&& hitInfo.name != "spieler" && hitInfo.name != "bullet(Clone)" && hitInfo.tag != "item" && hitInfo.name != "bulletCasing(Clone)")
         {
             try
             {

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static audioManager;
+using static despawnManager;
 
 public class crosshair : MonoBehaviour
 {
+    public GameObject bulletCasingPrefab;
+
     public GameObject crosshairs;
     public GameObject spieler;
     public GameObject bulletPrefab;
@@ -68,6 +71,32 @@ public class crosshair : MonoBehaviour
                         b.GetComponent<Rigidbody>().velocity = spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime;
                         GameObject.Find("ammoCapacityText").GetComponent<magazin>().removeBulletFromMag(1);
                         lastShot = Time.time * 1000;
+
+                        //Spawn bulletCasing
+                        GameObject casing = Instantiate(bulletCasingPrefab) as GameObject;
+                        casing.transform.position = spieler.transform.position;
+                        casing.transform.rotation = Quaternion.Euler(90, rotationZ+ Random.Range(-20,20), 90f);
+                        //TEMPORÄR 4 IF STATEMENTS TODO
+                        if(rotationZ > 0 && rotationZ <= 90)
+                        {
+                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f - (rotationZ / 90), 0, -(rotationZ / 90) ) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                        }
+                        else if(rotationZ > 90 && rotationZ <= 180)
+                        {
+                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f - (rotationZ / 90) , 0, -1f+(rotationZ / 180) ) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                        }
+                        else if (rotationZ <= 0 && rotationZ >= -90)
+                        {
+                            casing.GetComponent<Rigidbody>().velocity = new Vector3( 1f + (rotationZ / 90), 0, -(rotationZ / 90)) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                        }
+                        else if (rotationZ <= -90 && rotationZ >= -180)
+                        {
+                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f + (rotationZ / 90), 0, 1+(rotationZ / 180)) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                        }
+                        //TEMPORÄR 4 IF STATEMENTS TODO ende
+
+                        despawnManager.global.objects.Add(casing);
+                        //Debug.Log(despawnManager.global.objects.Count);
                     }
                     else
                     {

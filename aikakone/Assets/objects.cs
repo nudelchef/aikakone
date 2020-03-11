@@ -10,18 +10,26 @@ public class objects : MonoBehaviour
     JSONNode objectsJSON;
     public string objectsName;
     public float objectsHealth;
-    string objectID;
+    string objectId;
 
+    public static GameObject spawnObject(string objectId, Vector3 position, float rotation) //function to prepare object-spawn
+    {
+        GameObject b = Instantiate(Resources.Load("Prefabs/object")) as GameObject; //Creates Object
+        b.transform.rotation = Quaternion.Euler(0f, rotation, 0f); //Sets random rotation
+        b.name = "o" + objectId; //Sets objectname
+        b.GetComponent<Renderer>().material = Resources.Load<Material>("objectTextures/" + objectId); //Sets texture
+        return b;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        objectID = this.name.Substring(1);
+        objectId = this.name.Substring(1);
         //loading objectsJson and setting stats
         string pathToObjectsJson = Application.dataPath + "/objects.json";
         objectsJSON = JSON.Parse(File.ReadAllText(pathToObjectsJson));
-        objectsHealth = float.Parse(objectsJSON[objectID]["objectsHealth"]);
-        string objectsName = objectsJSON[objectID]["objectsName"];
-        this.GetComponent<Renderer>().material = Resources.Load<Material>("objectTextures/" + objectID); //Setzt Texture
+        objectsHealth = float.Parse(objectsJSON[objectId]["objectsHealth"]);
+        string objectsName = objectsJSON[objectId]["objectsName"];
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("objectTextures/" + objectId); //Setzt Texture
     }
 
     // Update is called once per frame

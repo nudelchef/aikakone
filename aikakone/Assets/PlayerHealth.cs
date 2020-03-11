@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static countdown;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
         //death of the player
-        if (currentHealth <= 0 || GameObject.Find("timerText").GetComponent<countdown>().timeLeft <= 0 )
+        if (currentHealth <= 0 || countdown.timeLeft <= 0 )
         {
             killPlayer();
         }

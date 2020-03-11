@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using SimpleJSON;
 using System.IO;
+using static countdown;
 
 
 public class enemy : MonoBehaviour
@@ -23,8 +24,9 @@ public class enemy : MonoBehaviour
     public float range;
     public float health = 100f;
     public string enemyID;
-    public int timer;
     public int timeWonInSeconds;
+    public int highscore = 0;
+
 
 
     //public vars for sight
@@ -33,23 +35,21 @@ public class enemy : MonoBehaviour
     public float viewRememberTime = 3000f;
 
     //Melee or Distance
-    public bool isEnemyMelee = false; 
+    public bool isEnemyMelee = false;
     public float meleeRadius;
     private float enemyDamage;
 
     private Vector3 targetPosition;
     private bool searchRunning = false;
-    private bool patrolRunning = true;
+    private bool patrolRunning = false;
 
     //private vars for patrol
     private int patrolPos = 0;
     private bool startSide = true;
 
-    private bool enemyIsSet = false;
-
     public NavMeshAgent agent;
 
-    public static GameObject spawnEnemy(string enemyId, Vector3 position, float rotation)
+    public static GameObject spawnEnemy(string enemyId, Vector3 position, float rotation) //Function to prepare enemy-spawn
     {
         GameObject b = Instantiate(Resources.Load("Prefabs/enemy")) as GameObject; //Creates object 
         b.transform.position = position; //Sets position
@@ -61,6 +61,8 @@ public class enemy : MonoBehaviour
 
     void Start()
     {
+        spieler = GameObject.Find("spieler");
+
         //loading item.json
         string pathToItemJson = Application.dataPath + "/items.json";
         items = JSON.Parse(File.ReadAllText(pathToItemJson));
@@ -79,10 +81,10 @@ public class enemy : MonoBehaviour
         range = float.Parse(items[itemId]["range"]);
         this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureId"]); //Sets texture
 
-        //Wenn Keine Patrol Points angegeben starte suche
+        //If there are no patrol points, prepare to start searchrunning
         if (patrolPoints.Length < 1)
         {
-            searchRunning = true;
+            searchRunning = false;
             patrolRunning = false;
         }
     }
@@ -90,10 +92,11 @@ public class enemy : MonoBehaviour
     void FixedUpdate()
     {
         //die
-        if(health<1)
+        if (health < 1)
         {
             Destroy(gameObject);
-            timer = timer + timeWonInSeconds; //adds reward-time if enemy is killed
+            countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
+            highscore = highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore -> MUSS ICH NOCH ALS ANZEIGE IN-GAME EINFÜGEN UND DAS DANN ORDENTLICH VERKNÜPFEN
         }
 
         //enemy sight
@@ -123,13 +126,13 @@ public class enemy : MonoBehaviour
                             //Enemy sees Player or Bullet
                             lastSeen = Time.time * 1000;
 
-                            float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - objects.transform.position.x),2) + Mathf.Pow((spieler.transform.position.y - objects.transform.position.y),2));
+                            float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - objects.transform.position.x), 2) + Mathf.Pow((spieler.transform.position.y - objects.transform.position.y), 2));
 
                             //Enemy in fight range
-                            if(spielerEntfernung<meleeRadius)
+                            if (spielerEntfernung < meleeRadius)
                             {
                                 //spielerLeben = spielerLeben - enemyDamage;
-                                
+
                                 return;
                             }
                         }
@@ -139,7 +142,7 @@ public class enemy : MonoBehaviour
         }
         //enemy sight ENDE
 
-        if (((Time.time * 1000) - lastSeen ) <= viewRememberTime)
+        if (((Time.time * 1000) - lastSeen) <= viewRememberTime)
         {
             //enemy saw player
             patrolRunning = false;
@@ -148,14 +151,14 @@ public class enemy : MonoBehaviour
 
             //Checks how daring the enemy can be
             //Less daring if near death
-            if (health<=25f)
+            if (health <= 25f)
             {
-                agent.speed = runingSpeed/2f;
+                agent.speed = runingSpeed / 2f;
             }
             //More daring if player's near death
-            else if(spielerLeben<=25f)
+            else if (spielerLeben <= 25f)
             {
-                agent.speed = runingSpeed*1.2f;
+                agent.speed = runingSpeed * 1.2f;
                 meleeRadius = meleeRadius - 1f;
             }
             //normal speed if both ok
@@ -163,7 +166,7 @@ public class enemy : MonoBehaviour
             {
                 agent.speed = runingSpeed;
             }
-            
+
             targetPosition = spieler.transform.position;
             agent.SetDestination(targetPosition);
         }
@@ -219,7 +222,7 @@ public class enemy : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(2.5f, 3f));
-            agent.SetDestination(transform.position+new Vector3(Random.Range(-7.5f, 7.5f), 0f, Random.Range(-7.5f, 7.5f)));
+            agent.SetDestination(transform.position + new Vector3(Random.Range(-7.5f, 7.5f), 0f, Random.Range(-7.5f, 7.5f)));
         }
     }
 }

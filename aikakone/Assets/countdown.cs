@@ -7,8 +7,13 @@ using TMPro;
 
 public class countdown : MonoBehaviour
 {
-    public int timeLeft = 60; //Seconds Overall
+    public static int timeLeft = 60;//Seconds Overall
     public TextMeshProUGUI textMesh; //UI Text Object
+
+    /*public static class global
+    {
+        public static int timeLeft = 60;//Seconds Overall
+    }*/
 
     void Start()
     {
