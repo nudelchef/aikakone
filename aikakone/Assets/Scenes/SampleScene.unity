@@ -1622,6 +1622,7 @@ GameObject:
   - component: {fileID: 463605398}
   - component: {fileID: 463605402}
   - component: {fileID: 463605401}
+  - component: {fileID: 463605400}
   - component: {fileID: 463605399}
   m_Layer: 9
   m_Name: spieler
@@ -1810,6 +1811,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5cbf0c716cf4145956eb60f927311f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &463605400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463605389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d30074fb64ab0046b68f9edca23029b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
+  player: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!82 &463605401
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2362,7 +2379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f03a7512a85c90148b51ef76b0c7c365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLeft: 0
   textMesh: {fileID: 571117585}
 --- !u!1 &654964006
 GameObject:
