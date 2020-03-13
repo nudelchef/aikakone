@@ -39,7 +39,7 @@ public class crosshair : MonoBehaviour
         //crosshairPosition
         Vector3 mouspos = Input.mousePosition;
         mouspos = Camera.main.ScreenToWorldPoint(mouspos);
-        target = new Vector3(mouspos.x, 3.5f, mouspos.z);
+        target = new Vector3(mouspos.x, 1f, mouspos.z);
         crosshairs.transform.position = target;
         //crosshairPosition ENDE
 
@@ -66,9 +66,13 @@ public class crosshair : MonoBehaviour
                         Vector3 direction = differnce / distance;
                         direction.Normalize();
                         GameObject b = Instantiate(bulletPrefab) as GameObject;
-                        b.transform.position = spieler.transform.position + (differnce.normalized / 2);
+                        b.transform.position = spieler.transform.position + (differnce.normalized / 2);                        
                         b.transform.rotation = Quaternion.Euler(90, rotationZ, 90f);
+
+                        b.transform.position = new Vector3(b.transform.position.x, 0.1f, b.transform.position.z);
+
                         b.GetComponent<Rigidbody>().velocity = spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime;
+
                         GameObject.Find("ammoCapacityText").GetComponent<magazin>().removeBulletFromMag(1);
                         lastShot = Time.time * 1000;
 
