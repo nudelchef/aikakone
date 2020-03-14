@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static audioManager;
-using static despawnManager;
+using static poolManager;
 
 public class crosshair : MonoBehaviour
 {
-    public GameObject bulletCasingPrefab;
-
     public GameObject crosshairs;
     public GameObject spieler;
-    public GameObject bulletPrefab;
     private Vector3 target;
     private float lastShot=0;
 
@@ -23,15 +20,21 @@ public class crosshair : MonoBehaviour
     public bool isMelee;
     public string itemId = "1";
 
+    public GameObject ammoCapacityText;
+    private magazin ammoCapacityTextMagazin;
 
     //only used in enemy.cs for hearing
     public bool canShoot;
 
+    private Vector3 casingVelocity;
+
     // Start is called before the first frame update
     void Start()
     {
+        ammoCapacityTextMagazin = ammoCapacityText.GetComponent<magazin>();
         Cursor.visible = false;
     }
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -56,7 +59,7 @@ public class crosshair : MonoBehaviour
             {   
                  if((lastShot-(Time.time*1000)) <= -(60000/ feuerRateMin))
                  {
-                    if (!GameObject.Find("ammoCapacityText").GetComponent<magazin>().checkMagEmpty())
+                    if (!ammoCapacityTextMagazin.checkMagEmpty())
                     {
                         //mag not empty
                         canShoot = true;
@@ -65,49 +68,39 @@ public class crosshair : MonoBehaviour
                         float distance = differnce.magnitude;
                         Vector3 direction = differnce / distance;
                         direction.Normalize();
-                        GameObject b = Instantiate(bulletPrefab) as GameObject;
-                        b.transform.position = spieler.transform.position + (differnce.normalized / 2);                        
-                        b.transform.rotation = Quaternion.Euler(90, rotationZ, 90f);
-
-                        b.transform.position = new Vector3(b.transform.position.x, 0.1f, b.transform.position.z);
-
-                        b.GetComponent<Rigidbody>().velocity = spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime;
-
-                        GameObject.Find("ammoCapacityText").GetComponent<magazin>().removeBulletFromMag(1);
+                        poolManager.spawnBullet(spieler.transform.position + (differnce.normalized / 2), Quaternion.Euler(90, rotationZ, 90f), spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime);
+                        
+                        ammoCapacityTextMagazin.removeBulletFromMag(1);
                         lastShot = Time.time * 1000;
 
                         //Spawn bulletCasing
-                        GameObject casing = Instantiate(bulletCasingPrefab) as GameObject;
-                        casing.transform.position = spieler.transform.position;
-                        casing.transform.rotation = Quaternion.Euler(90, rotationZ+ Random.Range(-20,20), 90f);
                         //TEMPORÄR 4 IF STATEMENTS TODO
-                        if(rotationZ > 0 && rotationZ <= 90)
+                        if (rotationZ > 0 && rotationZ <= 90)
                         {
-                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f - (rotationZ / 90), 0, -(rotationZ / 90) ) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                            casingVelocity = new Vector3(1f - (rotationZ / 90), 0, -(rotationZ / 90)) * 90 * Random.Range(50, 100) * Time.deltaTime;
                         }
-                        else if(rotationZ > 90 && rotationZ <= 180)
+                        else if (rotationZ > 90 && rotationZ <= 180)
                         {
-                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f - (rotationZ / 90) , 0, -1f+(rotationZ / 180) ) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                            casingVelocity = new Vector3(1f - (rotationZ / 90), 0, -1f + (rotationZ / 180)) * 90 * Random.Range(50, 100) * Time.deltaTime;
                         }
                         else if (rotationZ <= 0 && rotationZ >= -90)
                         {
-                            casing.GetComponent<Rigidbody>().velocity = new Vector3( 1f + (rotationZ / 90), 0, -(rotationZ / 90)) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                            casingVelocity = new Vector3(1f + (rotationZ / 90), 0, -(rotationZ / 90)) * 90 * Random.Range(50, 100) * Time.deltaTime;
                         }
                         else if (rotationZ <= -90 && rotationZ >= -180)
                         {
-                            casing.GetComponent<Rigidbody>().velocity = new Vector3(1f + (rotationZ / 90), 0, 1+(rotationZ / 180)) * 90 * Random.Range(50, 100) * Time.deltaTime;
+                            casingVelocity = new Vector3(1f + (rotationZ / 90), 0, 1 + (rotationZ / 180)) * 90 * Random.Range(50, 100) * Time.deltaTime;
                         }
                         //TEMPORÄR 4 IF STATEMENTS TODO ende
+                        poolManager.spawnBulletCasing(spieler.transform.position, Quaternion.Euler(90, rotationZ + Random.Range(-20, 20), 90f), casingVelocity);
 
-                        despawnManager.global.objects.Add(casing);
-                        //Debug.Log(despawnManager.global.objects.Count);
                     }
                     else
                     {
                         //mag is empty
-                        if (!GameObject.Find("ammoCapacityText").GetComponent<magazin>().checkMagsEmpty())
+                        if (!ammoCapacityTextMagazin.checkMagsEmpty())
                             //There are Magazines left
-                            GameObject.Find("ammoCapacityText").GetComponent<magazin>().reload();
+                            ammoCapacityTextMagazin.reload();
                     }
                  }else
                     canShoot = false;

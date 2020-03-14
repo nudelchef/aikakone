@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public static class DungeonGenerator
 {
@@ -8,6 +9,8 @@ public static class DungeonGenerator
 
     private const byte minRoomSize = 20, maxRoomSize = 30; // 40 80
 
+    public static SpriteAtlas atlas = Resources.Load<SpriteAtlas>("dungeonAssets/purple");
+    private static GameObject cubePrefab = Resources.Load<GameObject>("Prefabs/primitiveCube");
 
     struct Position2D
     {
@@ -149,7 +152,7 @@ public static class DungeonGenerator
                 }
             }
 
-            Debug.Log("--- Room [ " + roomId + " (" + (roomId + const_roomId) + ") ] ---");
+            //Debug.Log("--- Room [ " + roomId + " (" + (roomId + const_roomId) + ") ] ---");
             for (ushort y = 0; y < region_size; y++)
             {
                 string row = "";
@@ -158,10 +161,10 @@ public static class DungeonGenerator
                     string tileId = "" + tiles[region_size * region.y + y, region_size * region.x + x];
                     row += (tileId).PadLeft(5);
                 }
-                Debug.Log(row);
+             //   Debug.Log(row);
             }
-            Debug.Log("---  ---");
-            Debug.Log("");
+           // Debug.Log("---  ---");
+           // Debug.Log("");
 
 
             roomId++;
@@ -200,7 +203,7 @@ public static class DungeonGenerator
         {
             for (int x = 0; x < tiles.GetLength(1); x++)
             {
-                createTile(tiles[y, x], new Vector3(x, 0, y), Quaternion.Euler(0, 180, 0));
+                createTile(tiles[y, x], new Vector3(x, 0, y), Quaternion.Euler(0, 0, 0));
             }
         }
     }
@@ -211,25 +214,26 @@ public static class DungeonGenerator
 
         if (tileId == 0)
         {
-            go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go = GameObject.Instantiate(cubePrefab) as GameObject;
             go.transform.position = position + new Vector3(0f, -0.502f, 0f);
-            go.transform.localScale = new Vector3(1f, 0.001f, 1f);
-            go.transform.rotation = rotation;
-            var rend = go.GetComponent<Renderer>();
-            rend.material.shader = Resources.Load("SpriteShadow") as Shader;
-            rend.material.mainTexture = Resources.Load("dungeonAssets/purple/floor_basic") as Texture;
-            rend.name = "boden";
+            go.transform.rotation = Quaternion.Euler(90f+ rotation.x, 0 + rotation.y, 0 + rotation.z);
+            go.name = "boden";
+
+            var rend = go.GetComponent<SpriteRenderer>();
+            rend.sprite = atlas.GetSprite("floor_basic");
         }
         else if (tileId >= 1 && tileId <= 9)
         {
-            go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            go.transform.position = position;
-            go.transform.localScale = new Vector3(1f, 1f, 1f);
-            go.transform.rotation = rotation;
-            var rend = go.GetComponent<Renderer>();
-            rend.material.shader = Resources.Load("SpriteShadow") as Shader ;
-            rend.material.mainTexture = Resources.Load("dungeonAssets/purple/wall_" + tileId) as Texture;
-            rend.name = "wall";
+            go = GameObject.Instantiate(cubePrefab) as GameObject;
+            go.transform.position = position + new Vector3(0f, -0.502f, 0f);
+            go.transform.rotation = Quaternion.Euler(90f + rotation.x, 0 + rotation.y, 0 + rotation.z);
+            go.name = "wall";
+
+            var rend = go.GetComponent<SpriteRenderer>();
+            rend.sprite = atlas.GetSprite("wall_" + tileId);
+
+            var coll = go.GetComponent<BoxCollider>();
+            coll.size = new Vector3(0.32f, 0.32f, 1f);
         }
 
         return go;

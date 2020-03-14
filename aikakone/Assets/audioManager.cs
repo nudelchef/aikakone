@@ -1,18 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using SimpleJSON;
 
 public class audioManager : MonoBehaviour
 {
-    public static float sfxVolume = 0.15f;
-    public static float musicVolume = 0.10f;
+    private static float sfxVolume;
+    private static float musicVolume;
     public static GameObject spieler;
     public static GameObject camera;
     // Start is called before the first frame update
     void Start()
     {
+        loadSettings();
+
         camera = GameObject.Find("Camera");
         playMusicOnObject(Resources.Load<AudioClip>("audio/music/1"),camera, musicVolume, true);
+    }
+
+    public static void loadSettings()
+    {
+        string pathToSettingJson = Application.dataPath + "/Resources/gamesettings.json";
+        JSONNode settings = JSON.Parse(File.ReadAllText(pathToSettingJson));
+
+        musicVolume = (settings["musicVolume"] / 100f) * (settings["masterVolume"] / 100f);
+        sfxVolume = (settings["sfxVolume"] / 100f) * (settings["masterVolume"] / 100f);
     }
 
     public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn,float volume = -1f)

@@ -5,9 +5,9 @@ using UnityEngine;
 public class bulletCollision : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+   public void Start()
     {
-        Destroy(gameObject, 12.5f);
+        StartCoroutine(RemoveAfterSeconds(12.5f, gameObject));
     }
 
     void OnTriggerEnter(Collider hitInfo)
@@ -24,7 +24,12 @@ public class bulletCollision : MonoBehaviour
                 hitInfo.GetComponent<objects>().objectsHealth = hitInfo.GetComponent<objects>().objectsHealth - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
             }
             catch { }
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
+    }
+    IEnumerator RemoveAfterSeconds(float seconds, GameObject obj)
+    {
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.IO;
 using SimpleJSON;
+using static audioManager;
 
 public class SettingsController : MonoBehaviour {
 
@@ -40,6 +41,8 @@ public void saveSettings()
 
         string path = Application.dataPath + "/Resources/gamesettings.json";
         File.WriteAllText(path, settingJSON.ToString());
+
+        audioManager.loadSettings();
 
         MenuController.instance.closeOptions();
     }

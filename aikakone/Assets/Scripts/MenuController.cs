@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using System.IO;
 using UnityEngine.SceneManagement;
+using static audioManager;
 
 public class MenuController : MonoBehaviour {
 
@@ -64,7 +65,6 @@ public class MenuController : MonoBehaviour {
     [Space(10)]
     public AudioClip Select;
     public AudioClip SceneSelect;
-    private AudioSource Audio;
 
     //Events
     [SerializeField, HideInInspector]
@@ -81,7 +81,8 @@ public class MenuController : MonoBehaviour {
 
     void Start()
     {
-        Audio = gameObject.GetComponent<AudioSource>();
+        audioManager.loadSettings();
+
         instance = this;
         //Set the activeBackground array length
         if (useParallax) { activeBackground = new GameObject[backgroundsParallax.Length]; } else { activeBackground = new GameObject[backgrounds.Length]; }
@@ -204,8 +205,7 @@ public class MenuController : MonoBehaviour {
         {
             option = option + 1;
             ArrowR.SetBool("Click", true);
-            Audio.clip = Select;
-            Audio.Play();
+            audioManager.playClipOnObject(Select, gameObject);
         }
     }
 
@@ -216,8 +216,7 @@ public class MenuController : MonoBehaviour {
         {
             option = option - 1;
             ArrowL.SetBool("Click", true);
-            Audio.clip = Select;
-            Audio.Play();
+            audioManager.playClipOnObject(Select, gameObject);
         }
     }
     
@@ -225,7 +224,7 @@ public class MenuController : MonoBehaviour {
     public void newGame()
     {
         //Loads the first scene, change the number to your desired scene
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     //Continue
@@ -285,8 +284,7 @@ public class MenuController : MonoBehaviour {
         //First check if we are animating and if we are not in the last scene
         if (!isAnimating && activeScene < activeBackground.Length)
         {
-            Audio.clip = SceneSelect;
-            Audio.Play();
+            audioManager.playClipOnObject(SceneSelect, gameObject);
             //Then create a new clip and a curve to animate the scenes moving
             var clip = new AnimationClip();
             var curve = new AnimationCurve();

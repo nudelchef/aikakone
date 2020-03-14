@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61962536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -0.48881632}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463605394}
@@ -163,7 +163,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 75
+  m_Range: 1.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -353,7 +353,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &463605391
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -456,12 +456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febcac2d91d76aa4687c251d83deb107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletCasingPrefab: {fileID: 8064799061177366018, guid: ee047e1ee1ea3164586736c8932ea6e9,
-    type: 3}
   crosshairs: {fileID: 904137918}
   spieler: {fileID: 463605389}
-  bulletPrefab: {fileID: 8064799061177366018, guid: ac16be7ddbbd43f4f8814f51a001aa7a,
-    type: 3}
   weaponDamage: 100
   feuerRateMin: 900
   ammoCapacity: 30
@@ -470,6 +466,7 @@ MonoBehaviour:
   bulletSpeed: 3000
   isMelee: 0
   itemId: 1
+  ammoCapacityText: {fileID: 2049092287}
   canShoot: 0
 --- !u!114 &463605397
 MonoBehaviour:
@@ -518,6 +515,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5cbf0c716cf4145956eb60f927311f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletCasingPrefab: {fileID: 8064799061177366018, guid: ee047e1ee1ea3164586736c8932ea6e9,
+    type: 3}
+  bulletPrefab: {fileID: 8064799061177366018, guid: ac16be7ddbbd43f4f8814f51a001aa7a,
+    type: 3}
 --- !u!114 &463605400
 MonoBehaviour:
   m_ObjectHideFlags: 0
