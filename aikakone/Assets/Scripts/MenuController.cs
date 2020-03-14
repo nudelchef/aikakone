@@ -78,6 +78,7 @@ public class MenuController : MonoBehaviour {
     [SerializeField, HideInInspector]
     public GameObject OptionsMenu;
 
+    public int openOption;
 
     void Start()
     {
@@ -91,7 +92,7 @@ public class MenuController : MonoBehaviour {
 
 	void Update () {
 
-        if (mainMenu) { 
+        if (mainMenu) {
         //Changes the text corresponding option
         menuText.text = options[option];
 
@@ -132,6 +133,22 @@ public class MenuController : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     pressEnter();
+                }
+            }
+        }
+        if (useKeys)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !backgroundsController.GetComponent<Animation>().isPlaying)
+            {
+                if (openOption == 2)
+                {
+                    //Option Menu is opened
+                    closeOptions();
+                }
+                else if (openOption == 3)
+                {
+                    //Exit Menu is opened
+                    exitMenuClose();
                 }
             }
         }
@@ -195,6 +212,7 @@ public class MenuController : MonoBehaviour {
     //Press enter or click on option 
     public void pressEnter()
     {
+        openOption = option;
         Events[option].Invoke();
     }
 
@@ -367,6 +385,8 @@ public class MenuController : MonoBehaviour {
         var animEx = exitMenu.GetComponent<Animation>();
         animEx.Play("Fade out");
         mainMenu = true;
+
+        openOption = -1;
     }
 
     //Exit Game
@@ -388,6 +408,7 @@ public class MenuController : MonoBehaviour {
     {
         OptionsMenu.gameObject.GetComponent<Animation>().Play("Fade out");
         mainMenu = true;
+        openOption = -1;
     }
 
 }

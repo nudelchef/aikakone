@@ -22,13 +22,6 @@ public class SettingsController : MonoBehaviour {
 
         loadSettings();
     }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MenuController.instance.closeOptions();
-        }
-    }
 
 public void saveSettings()
     {
