@@ -96,7 +96,7 @@ public class enemy : MonoBehaviour
         {
             Destroy(gameObject);
             countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
-            highscore = highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore -> MUSS ICH NOCH ALS ANZEIGE IN-GAME EINFÜGEN UND DAS DANN ORDENTLICH VERKNÜPFEN
+            userInterface.highscore += timeWonInSeconds; //adds reward-time - which are also the actual points - to the highscore
         }
 
         //enemy sight

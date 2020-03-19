@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using static countdown;
 
 public class PlayerHealth : MonoBehaviour
@@ -6,7 +7,6 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 3;
     public int currentHealth;
     public GameObject player;
-    public PlayerMovement playerMovement;
 
     private PlayerHealth()
     {
@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
     {
         //pick up health
         //TODO: change wall1 to another object
-        if(collision.gameObject.name == "wall1" && currentHealth != maxHealth)
+        if (collision.gameObject.name == "wall1" && currentHealth != maxHealth)
         {
             Debug.Log(currentHealth);
             Destroy(collision.gameObject);
@@ -30,20 +30,20 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = 2;
-        Debug.Log(currentHealth);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         //health can't be more than max
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
         //death of the player
-        if (currentHealth <= 0 || countdown.timeLeft <= 0 )
+        if (currentHealth <= 0 || countdown.timeLeft <= 0)
         {
             killPlayer();
         }

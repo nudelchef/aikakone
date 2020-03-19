@@ -10,11 +10,6 @@ public class countdown : MonoBehaviour
     public static int timeLeft = 60;//Seconds Overall
     public TextMeshProUGUI textMesh; //UI Text Object
 
-    /*public static class global
-    {
-        public static int timeLeft = 60;//Seconds Overall
-    }*/
-
     void Start()
     {
         //textMesh = gameObject.GetComponent<TextMeshProUGUI>();
@@ -25,7 +20,7 @@ public class countdown : MonoBehaviour
     {
         string minutes = Mathf.Floor(timeLeft / 60).ToString("00");
         string seconds = (timeLeft % 60).ToString("00");
-        textMesh.text = (minutes+":"+seconds); //Showing the Score on the Canvas
+        textMesh.text = (minutes + ":" + seconds); //Showing the Score on the Canvas
     }
     //Simple Coroutine
     IEnumerator LoseTime()
