@@ -68,8 +68,16 @@ public class crosshair : MonoBehaviour
                         float distance = differnce.magnitude;
                         Vector3 direction = differnce / distance;
                         direction.Normalize();
-                        poolManager.spawnBullet(spieler.transform.position + (differnce.normalized / 2), Quaternion.Euler(90, rotationZ, 90f), spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime);
                         
+                        //SpawnBullet
+                        GameObject bullet = poolManager.spawnObject(0);
+                        bullet.transform.position = spieler.transform.position + (differnce.normalized / 2);
+                        bullet.transform.rotation = Quaternion.Euler(90, rotationZ, 90f);
+                        bullet.GetComponent<Rigidbody>().velocity = spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime;
+                        bullet.SetActive(true);
+                        bullet.GetComponent<bulletCollision>().Start();
+
+                        //Remove Bullet from Magazine and set lastShot to now
                         ammoCapacityTextMagazin.removeBulletFromMag(1);
                         lastShot = Time.time * 1000;
 
@@ -92,8 +100,11 @@ public class crosshair : MonoBehaviour
                             casingVelocity = new Vector3(1f + (rotationZ / 90), 0, 1 + (rotationZ / 180)) * 90 * Random.Range(50, 100) * Time.deltaTime;
                         }
                         //TEMPORÄR 4 IF STATEMENTS TODO ende
-                        poolManager.spawnBulletCasing(spieler.transform.position, Quaternion.Euler(90, rotationZ + Random.Range(-20, 20), 90f), casingVelocity);
-
+                        GameObject bulletCasing = poolManager.spawnObject(1);
+                        bulletCasing.transform.position = spieler.transform.position;
+                        bulletCasing.transform.rotation = Quaternion.Euler(90, rotationZ + Random.Range(-20, 20), 90f);
+                        bulletCasing.GetComponent<Rigidbody>().velocity = casingVelocity;
+                        bulletCasing.SetActive(true);
                     }
                     else
                     {

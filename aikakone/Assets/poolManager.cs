@@ -5,66 +5,42 @@ using System.Linq;
 
 public class poolManager : MonoBehaviour
 {
-    public GameObject bulletCasingPrefab;
-    private static int maxCasingObjects = 20; //If this number of Casings in the List is reached the oldest will be reused
-    private static List<GameObject> casings = new List<GameObject>();
+    //"prefabs" List and "amountToPool" List always have to have the same length!
+    public List<GameObject> prefabs = new List<GameObject>();
+    public List<uint> amountToPool = new List<uint>();
 
+    public static List<List<GameObject>> listOfGameObjectLists = new List<List<GameObject>>();
+    public static List<int> listOfGameObjectIndexes = new List<int>();
 
-    public GameObject bulletPrefab;
-    private static int maxBulletObjects = 50; //If this number of Bullets in the List is reached the oldest will be reused
-    private static List<GameObject> bullets = new List<GameObject>();
-
+    private static List<uint> amountToPool2 = new List<uint>();
 
     void Start()
     {
-        //Spawn BulletCasing Prefabs and Disable them for later use
-        for (int i = 0; i < maxCasingObjects; i++)
-        {
-            GameObject b = Instantiate(bulletCasingPrefab) as GameObject;
-            b.SetActive(false);
-            casings.Add(b);
-        }
+        amountToPool2 = amountToPool;
 
-        //Spawn Bullet Prefabs and Disable them for later use
-        for (int i = 0; i < maxBulletObjects; i++)
+        if (prefabs.Count!=amountToPool.Count)
+            throw new System.ArgumentException("prefabs List and amountToPool List have to have the same Count!");
+
+        for (int i = 0;i < prefabs.Count;i++)
         {
-            GameObject b = Instantiate(bulletPrefab) as GameObject;
-            b.SetActive(false);
-            bullets.Add(b);
+            listOfGameObjectLists.Add(new List<GameObject>());
+            listOfGameObjectIndexes.Add(0);
+            for (int j = 0; j < amountToPool[i]; j++)
+            {
+                GameObject b = Instantiate(prefabs[i]) as GameObject;
+                b.SetActive(false);
+                listOfGameObjectLists[i].Add(b);
+            }
         }
     }
 
-    static int casingCounter = 0;
-    public static GameObject spawnBulletCasing(Vector3 position, Quaternion rotation, Vector3 velocity)
+    public static GameObject spawnObject(int GameObjectIndex)
     {
-        casings[casingCounter].transform.position = position;
-        casings[casingCounter].transform.rotation = rotation;
-        casings[casingCounter].GetComponent<Rigidbody>().velocity = velocity;
-        casings[casingCounter].SetActive(true);
-
-        if (casingCounter == maxCasingObjects-1)
-            casingCounter = 0;
+        if (listOfGameObjectIndexes[GameObjectIndex] == amountToPool2[GameObjectIndex]-1)
+            listOfGameObjectIndexes[GameObjectIndex] = 0;
         else
-            casingCounter++;
+            listOfGameObjectIndexes[GameObjectIndex]++;
 
-        return casings[casingCounter];
-    }
-
-
-    static int bulletCounter = 0;
-    public static GameObject spawnBullet(Vector3 position, Quaternion rotation, Vector3 velocity)
-    {
-        bullets[bulletCounter].transform.position = position;
-        bullets[bulletCounter].transform.rotation = rotation;
-        bullets[bulletCounter].GetComponent<Rigidbody>().velocity = velocity;
-        bullets[bulletCounter].SetActive(true);
-        bullets[bulletCounter].GetComponent<bulletCollision>().Start();
-
-        if (bulletCounter == maxBulletObjects-1)
-            bulletCounter = 0;
-        else
-            bulletCounter++;
-
-        return bullets[bulletCounter];
+        return listOfGameObjectLists[GameObjectIndex][listOfGameObjectIndexes[GameObjectIndex]];
     }
 }

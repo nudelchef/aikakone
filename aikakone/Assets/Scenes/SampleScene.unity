@@ -1874,10 +1874,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5cbf0c716cf4145956eb60f927311f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletCasingPrefab: {fileID: 8064799061177366018, guid: ee047e1ee1ea3164586736c8932ea6e9,
-    type: 3}
-  bulletPrefab: {fileID: 8064799061177366018, guid: ac16be7ddbbd43f4f8814f51a001aa7a,
-    type: 3}
+  prefabs:
+  - {fileID: 8064799061177366018, guid: ac16be7ddbbd43f4f8814f51a001aa7a, type: 3}
+  - {fileID: 8064799061177366018, guid: ee047e1ee1ea3164586736c8932ea6e9, type: 3}
+  amountToPool: 1400000032000000
 --- !u!114 &463605400
 MonoBehaviour:
   m_ObjectHideFlags: 0
