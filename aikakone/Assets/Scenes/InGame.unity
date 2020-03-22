@@ -2132,6 +2132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2108059951}
   - component: {fileID: 2108059950}
+  - component: {fileID: 2108059952}
   m_Layer: 0
   m_Name: Dungeon
   m_TagString: Untagged
@@ -2146,7 +2147,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2108059949}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0332972a73abbcb41b4405b97f70db9b, type: 3}
   m_Name: 
@@ -2165,6 +2166,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2108059952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108059949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67189cacf6ce97499fd5a667e1f0976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atlas: {fileID: 4343727234628468602, guid: ce910c8c03f60e24ca7fde41bafba384, type: 2}
+  cubePrefab: {fileID: 8958518543015104826, guid: e9a76a3c23329ab4fb93e8392b10e346,
+    type: 3}
 --- !u!4 &2128946942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5698020851096157364, guid: 3d153f305c409a54fbb9d0e3ddbc18ad,
