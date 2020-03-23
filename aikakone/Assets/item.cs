@@ -26,6 +26,8 @@ public class item : MonoBehaviour
     private float playerToItemDistance;
     private float smallestDistance;
 
+    public string pickupSound = "pickup";
+    public string textureName = "1";
 
     public string itemInHandId = "";
     public string itemInHandType = "";
@@ -82,8 +84,8 @@ public class item : MonoBehaviour
             if (itemInHandType == "gun")
             {
                 dropItem(itemInHandId);
-                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/pickup"), spieler);//pickup sound effect
                 addGunToInventory(temp);
+                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
                 GameObject.Find("ammoCapacityText").GetComponent<magazin>().ammoLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().ammoLeft;
                 GameObject.Find("ammoCapacityText").GetComponent<magazin>().magLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().magLeft;
                 GameObject.Find("ammoCapacityText").GetComponent<magazin>().updateAmmoCount();
@@ -91,8 +93,8 @@ public class item : MonoBehaviour
             else if (itemInHandType == "melee")
             {
                 dropItem(itemInHandId);
-                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/pickup"), spieler);//pickup sound effect
                 addMeleeToInventory(temp);
+                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
             }
 
 
@@ -110,7 +112,7 @@ public class item : MonoBehaviour
         b.transform.position = position; //Setzt position
         b.transform.rotation = Quaternion.Euler(0f, Random.Range(-360f, 360f), 0f); //Setzt zufällige rotation
         b.name = "i"+itemId; //Setzt Objektname
-        b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + itemId); //Setzt Texture
+        b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + textureName); //Setzt Texture
         return b;
     }
 
@@ -131,7 +133,6 @@ public class item : MonoBehaviour
         }
     }
 
-    
     public void addGunToInventory(string itemId)
     {
         //Set all Weapon stats
@@ -143,6 +144,11 @@ public class item : MonoBehaviour
         spieler.GetComponent<crosshair>().bulletSpeed = float.Parse(items[itemId]["bulletSpeed"]);
         spieler.GetComponent<crosshair>().isMelee = false;
         spieler.GetComponent<crosshair>().itemId = itemId;
+        spieler.GetComponent<crosshair>().useSoundName = items[itemId]["useSoundName"];
+        spieler.GetComponent<crosshair>().reloadSoundName = items[itemId]["reloadSoundName"];
+
+        pickupSound = items[itemId]["pickupSoundName"];
+        textureName = items[itemId]["textureName"];
 
         itemInHandId = itemId;
         itemInHand = true;
@@ -158,6 +164,10 @@ public class item : MonoBehaviour
         spieler.GetComponent<melee>().meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
         spieler.GetComponent<crosshair>().isMelee = true;
         spieler.GetComponent<melee>().itemId = itemId;
+        spieler.GetComponent<melee>().useSoundName = items[itemId]["useSoundName"];
+
+        pickupSound = items[itemId]["pickupSoundName"];
+        textureName = items[itemId]["textureName"];
 
         itemInHandId = itemId;
         itemInHand = true;

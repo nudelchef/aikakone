@@ -4,7 +4,10 @@
     "itemType": "melee",
     "weaponDamage": "50",
     "range": "1",
-    "meleeRateMin": "200"
+    "meleeRateMin": "200",
+    "useSoundName": "0",
+    "pickupSoundName": "pickup",
+    "textureName": "0"
   },
   "1": {
     "itemName": "AK47",
@@ -15,7 +18,11 @@
     "ammoCapacity": "30",
     "magCapacity": "2",
     "reloadTime": "500",
-    "bulletSpeed": "3000"
+    "bulletSpeed": "3000",
+    "useSoundName": "1",
+    "pickupSoundName": "pickup",
+    "reloadSoundName": "1reload",
+    "textureName": "1"
   },
   "2": {
     "itemName": "Knife",
@@ -23,7 +30,10 @@
     "range": "1",
     "itemType": "melee",
     "meleeRange": "2",
-    "meleeRateMin": "240"
+    "meleeRateMin": "240",
+    "useSoundName": "2",
+    "pickupSoundName": "pickup",
+    "textureName": "2"
   },
   "3": {
     "itemName": "UZI",
@@ -34,6 +44,10 @@
     "ammoCapacity": "15",
     "magCapacity": "2",
     "reloadTime": "400",
-    "bulletSpeed": "3000"
+    "bulletSpeed": "3000",
+    "useSoundName": "3",
+    "pickupSoundName": "pickup",
+    "reloadSoundName": "3reload",
+    "textureName": "3"
   },
 }

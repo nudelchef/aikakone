@@ -19,6 +19,8 @@ public class crosshair : MonoBehaviour
     public float bulletSpeed = 3000f;
     public bool isMelee;
     public string itemId = "1";
+    public string useSoundName = "1";
+    public string reloadSoundName = "1reload";
 
     public GameObject ammoCapacityText;
     private magazin ammoCapacityTextMagazin;
@@ -63,7 +65,7 @@ public class crosshair : MonoBehaviour
                     {
                         //mag not empty
                         canShoot = true;
-                        audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId),spieler);//shoot sound effect
+                        audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + useSoundName),spieler);//shoot sound effect
 
                         float distance = differnce.magnitude;
                         Vector3 direction = differnce / distance;

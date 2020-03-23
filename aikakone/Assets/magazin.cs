@@ -18,6 +18,7 @@ public class magazin : MonoBehaviour
     public float ammoLeft;
     public float magLeft;
     public string itemId;
+    public string reloadSoundName;
 
     private bool reloading = false;
 
@@ -29,6 +30,7 @@ public class magazin : MonoBehaviour
         magCapacity = GameObject.Find("spieler").GetComponent<crosshair>().magCapacity;
         reloadTime = GameObject.Find("spieler").GetComponent<crosshair>().reloadTime;
         itemId = GameObject.Find("spieler").GetComponent<crosshair>().itemId;
+        reloadSoundName = GameObject.Find("spieler").GetComponent<crosshair>().reloadSoundName;
 
          magLeft = magCapacity;
          ammoLeft = ammoCapacity;
@@ -76,7 +78,7 @@ public class magazin : MonoBehaviour
     {
         if (!reloading)
         {
-            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId + "reload"),spieler);
+            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + reloadSoundName), spieler);
         }
         reloading = true;
         yield return new WaitForSeconds(reloadTime/1000f);
