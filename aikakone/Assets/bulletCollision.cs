@@ -4,27 +4,50 @@ using UnityEngine;
 
 public class bulletCollision : MonoBehaviour
 {
+    public bool enemyBullet = false;
+
     // Start is called before the first frame update
-   public void Start()
+    public void Start()
     {
         StartCoroutine(RemoveAfterSeconds(12.5f, gameObject));
     }
 
     void OnTriggerEnter(Collider hitInfo)
     {
-        if(hitInfo.name!="boden"&& hitInfo.name != "spieler" && hitInfo.name != "bullet(Clone)" && hitInfo.tag != "item" && hitInfo.name != "bulletCasing(Clone)")
+        if (enemyBullet)
         {
-            try
+            if (hitInfo.name != "boden" && hitInfo.name[0] != 'e' && hitInfo.name != "bullet(Clone)" && hitInfo.tag != "item" && hitInfo.name != "bulletCasing(Clone)")
             {
-                hitInfo.GetComponent<enemy>().health = hitInfo.GetComponent<enemy>().health - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                try
+                {
+                    hitInfo.GetComponent<enemy>().health = hitInfo.GetComponent<enemy>().health - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                }
+                catch { }
+                try
+                {
+                    hitInfo.GetComponent<objects>().objectsHealth = hitInfo.GetComponent<objects>().objectsHealth - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                }
+                catch { }
+                //TODO SPIELER LEBEN ABZIEHEN SIEHE OBEN
+                gameObject.SetActive(false);
             }
-            catch { }
-            try
+        }
+        else
+        {
+            if (hitInfo.name != "boden" && hitInfo.name != "spieler" && hitInfo.name != "bullet(Clone)" && hitInfo.tag != "item" && hitInfo.name != "bulletCasing(Clone)")
             {
-                hitInfo.GetComponent<objects>().objectsHealth = hitInfo.GetComponent<objects>().objectsHealth - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                try
+                {
+                    hitInfo.GetComponent<enemy>().health = hitInfo.GetComponent<enemy>().health - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                }
+                catch { }
+                try
+                {
+                    hitInfo.GetComponent<objects>().objectsHealth = hitInfo.GetComponent<objects>().objectsHealth - GameObject.Find("spieler").GetComponent<crosshair>().weaponDamage;
+                }
+                catch { }
+                gameObject.SetActive(false);
             }
-            catch { }
-            gameObject.SetActive(false);
         }
     }
     IEnumerator RemoveAfterSeconds(float seconds, GameObject obj)

@@ -1,6 +1,6 @@
 {
   "1": {
-    "enemyName": "Muschi Klaus",
+    "enemyName": "Skeleton",
     "enemyHealth": "100",
     "itemId": "0",
     "enemyPrecision": "0.5",
@@ -9,5 +9,16 @@
     "animationId": "0",
     "textureId": "0",
     "timeWonInSeconds": "20"
+  },
+  "2": {
+    "enemyName": "Zombie-Soldier",
+    "enemyHealth": "100",
+    "itemId": "1",
+    "enemyPrecision": "0.5",
+    "movementSpeed": "5",
+    "runningSpeed": "10",
+    "animationId": "0",
+    "textureId": "0",
+    "timeWonInSeconds": "25"
   }
 }

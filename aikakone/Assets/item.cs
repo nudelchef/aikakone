@@ -35,6 +35,7 @@ public class item : MonoBehaviour
     void Start()
     {
         enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
 
         pathToItemJson = Application.dataPath+"/items.json";

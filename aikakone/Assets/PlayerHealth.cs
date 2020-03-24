@@ -8,11 +8,6 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth;
     public GameObject player;
 
-    private PlayerHealth()
-    {
-        //set current health to max on start
-        currentHealth = maxHealth;
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -30,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
