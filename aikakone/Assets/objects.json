@@ -1,30 +1,51 @@
 {
   "0": {
     "objectsName": "Vase",
-    "objectsHealth": "1"
+    "objectsHealth": "1",
+    "textureName": "0",
+    "textureDeadName": "0",
+    "dieSoundName": "0"
   },
   "1": {
     "objectsName": "Tisch",
-    "objectsHealth": "2"
+    "objectsHealth": "2",
+    "textureName": "1",
+    "textureDeadName": "1",
+    "dieSoundName": "1"
   },
   "2": {
     "objectsName": "Hocker",
-    "objectsHealth": "1"
+    "objectsHealth": "1",
+    "textureName": "2",
+    "textureDeadName": "2",
+    "dieSoundName": "2"
   },
   "3": {
     "objectsName": "Grabstein",
-    "objectsHealth": "3"
+    "objectsHealth": "3",
+    "textureName": "3",
+    "textureDeadName": "3",
+    "dieSoundName": "3"
   },
   "4": {
     "objectsName": "Regale",
-    "objectsHealth": "2"
+    "objectsHealth": "2",
+    "textureName": "4",
+    "textureDeadName": "4",
+    "dieSoundName": "4"
   },
   "5": {
     "objectsName": "Fenster",
-    "objectsHealth": "0.5"
+    "objectsHealth": "0.5",
+    "textureName": "5",
+    "textureDeadName": "5",
+    "dieSoundName": "5"
   },
   "6": {
     "objectsName": "Kerzenhalter",
-    "objectsHealth":  "0.75"
+    "objectsHealth": "0.75",
+    "textureName": "6",
+    "textureDeadName": "6",
+    "dieSoundName": "6"
   }
 }

@@ -76,8 +76,10 @@ public class crosshair : MonoBehaviour
                         bullet.transform.position = spieler.transform.position + (differnce.normalized / 2);
                         bullet.transform.rotation = Quaternion.Euler(90, rotationZ, 90f);
                         bullet.GetComponent<Rigidbody>().velocity = spieler.transform.TransformDirection(0f, 0f, bulletSpeed) * Time.deltaTime;
+                        bulletCollision collison = bullet.GetComponent<bulletCollision>();
+                        collison.enemyBullet = false;
                         bullet.SetActive(true);
-                        bullet.GetComponent<bulletCollision>().Start();
+                        collison.Start();
 
                         //Remove Bullet from Magazine and set lastShot to now
                         ammoCapacityTextMagazin.removeBulletFromMag(1);

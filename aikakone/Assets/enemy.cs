@@ -30,6 +30,7 @@ public class enemy : MonoBehaviour
     public int highscore = 0;
     public string itemId;
     public string itemType;
+    public string textureDeadName; //TODO USE THIS TEXTURE IF ENEMY DIES
 
     //vars for shooting
     public float distanceToPlayer = 10;
@@ -95,6 +96,7 @@ public class enemy : MonoBehaviour
         enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]);
         timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
         itemId = enemyJSON[enemyID]["itemId"];
+        textureDeadName = enemyJSON[enemyID]["textureDeadName"];
         itemType = items[itemId]["itemType"];
         maxAmmoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
         reloadTime = float.Parse(items[itemId]["reloadTime"]);
@@ -102,7 +104,7 @@ public class enemy : MonoBehaviour
         weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
         range = float.Parse(items[itemId]["range"]);
         reloadSoundName = items[itemId]["reloadSoundName"];
-        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureId"]); //Sets texture
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureName"]); //Sets texture
 
         //If there are no patrol points, prepare to start searchrunning
         if (patrolPoints.Length < 1)

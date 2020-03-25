@@ -11,6 +11,9 @@ public class objects : MonoBehaviour
     public string objectsName;
     public float objectsHealth;
     string objectId;
+    string objectTextureName;
+    string objectTextureDeadName;//TODO USE THIS TEXTURE IF OBJECT GETS DESTORYED
+    string objectDieSoundName;//TODO PLAY THIS SOUND IF OBJECT GETS DESTORYED
 
     public static GameObject spawnObject(string objectId, Vector3 position, float rotation) //function to prepare object-spawn
     {
@@ -29,7 +32,10 @@ public class objects : MonoBehaviour
         objectsJSON = JSON.Parse(File.ReadAllText(pathToObjectsJson));
         objectsHealth = float.Parse(objectsJSON[objectId]["objectsHealth"]);
         string objectsName = objectsJSON[objectId]["objectsName"];
-        this.GetComponent<Renderer>().material = Resources.Load<Material>("objectTextures/" + objectId); //Setzt Texture
+        objectTextureName = objectsJSON[objectId]["textureName"];
+        objectTextureDeadName = objectsJSON[objectId]["textureDeadName"];
+        objectDieSoundName = objectsJSON[objectId]["dieSoundName"];
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("objectTextures/" + objectTextureName); //Setzt Texture
     }
 
     // Update is called once per frame

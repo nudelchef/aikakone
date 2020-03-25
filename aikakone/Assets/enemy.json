@@ -7,8 +7,9 @@
     "movementSpeed": "5",
     "runningSpeed": "10",
     "animationId": "0",
-    "textureId": "0",
-    "timeWonInSeconds": "20"
+    "timeWonInSeconds": "20",
+    "textureName": "1",
+    "textureDeadName": "1"
   },
   "2": {
     "enemyName": "Zombie-Soldier",
@@ -18,7 +19,8 @@
     "movementSpeed": "5",
     "runningSpeed": "10",
     "animationId": "0",
-    "textureId": "0",
-    "timeWonInSeconds": "25"
+    "timeWonInSeconds": "25",
+    "textureName": "2",
+    "textureDeadName": "2"
   }
 }

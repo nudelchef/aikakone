@@ -1825,6 +1825,8 @@ MonoBehaviour:
   bulletSpeed: 3000
   isMelee: 0
   itemId: 1
+  useSoundName: 1
+  reloadSoundName: 1reload
   ammoCapacityText: {fileID: 1419047036}
   canShoot: 0
 --- !u!114 &463605397
@@ -1844,6 +1846,7 @@ MonoBehaviour:
   meleeRange: 1
   meleeRateMin: 250
   itemId: 
+  useSoundName: 1
 --- !u!114 &463605398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1860,6 +1863,8 @@ MonoBehaviour:
     type: 3}
   spieler: {fileID: 463605389}
   pickupRange: 1
+  pickupSound: pickup
+  textureName: 1
   itemInHandId: 
   itemInHandType: 
 --- !u!114 &463605399
@@ -1877,7 +1882,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 8064799061177366018, guid: ac16be7ddbbd43f4f8814f51a001aa7a, type: 3}
   - {fileID: 8064799061177366018, guid: ee047e1ee1ea3164586736c8932ea6e9, type: 3}
-  amountToPool: 1400000032000000
+  amountToPool: 1400000014000000
 --- !u!114 &463605400
 MonoBehaviour:
   m_ObjectHideFlags: 0
