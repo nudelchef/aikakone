@@ -15,7 +15,7 @@
     "enemyName": "Zombie-Soldier",
     "enemyHealth": "100",
     "itemId": "1",
-    "enemyPrecision": "0.5",
+    "enemyPrecision": "0.75",
     "movementSpeed": "5",
     "runningSpeed": "10",
     "animationId": "0",

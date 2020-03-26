@@ -93,7 +93,7 @@ public class enemy : MonoBehaviour
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
         health = float.Parse(enemyJSON[enemyID]["enemyHealth"]);
-        enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]);
+        enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]); //TODO USE TIHS VALUE FOR lookAtCords
         timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
         itemId = enemyJSON[enemyID]["itemId"];
         textureDeadName = enemyJSON[enemyID]["textureDeadName"];
@@ -143,13 +143,12 @@ public class enemy : MonoBehaviour
                 {
                     RaycastHit hit;
                     //Check if Player or Bullet not obstructed by wall
-                    if (Physics.Raycast(transform.position, dirToTarget, out hit, Mathf.Infinity))
+                    if (Physics.Raycast(transform.position, dirToTarget, out hit, Mathf.Infinity, ~((1 << 11) | (1 << 12) ) ))
                     {
                         if (hit.collider.name == "spieler" || hit.collider.name == "bullet(Clone)")
                         {
                             //Enemy sees Player or Bullet
                             lastSeen = Time.time * 1000;
-
                         }
                     }
                 }
@@ -163,77 +162,80 @@ public class enemy : MonoBehaviour
             patrolRunning = false;
             StopCoroutine("enemySearch");
             searchRunning = false;
+            agent.speed = runingSpeed;
 
-            if (itemType == "melee")
+            //Check if Player or Bullet not obstructed by wall
+            Vector3 dirToTarget = (spieler.transform.position - transform.position).normalized;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, dirToTarget, out hit, Mathf.Infinity, ~((1 <<11) | (1 << 12)) ))
             {
-                //Checks how daring the enemy can be
-                //Less daring if near death
-                if (health <= 25f)
+                if (hit.collider.name == "spieler")
                 {
-                    agent.speed = runingSpeed / 2f;
-                }
-                //More daring if player's near death
-                else if (spielerLeben <= 25f)
-                {
-                    agent.speed = runingSpeed * 1.2f;
-                    meleeRadius = meleeRadius - 1f;
-                }
-                //normal speed if both ok
-                else
-                {
-                    agent.speed = runingSpeed;
-                }
-
-                agent.SetDestination(spieler.transform.position);
-                if ((lastShot - (Time.time * 1000)) <= -(60000 / meleeRateMin))
-                {
-                    audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId), gameObject);
-                    Collider[] hitInfo = Physics.OverlapSphere(this.transform.position + this.transform.TransformDirection(new Vector3(0f, 0f, meleeRange)), meleeRange);
-                    int i = 0;
-                    while (i < hitInfo.Length)
+                    if (itemType == "melee")
                     {
-                        if (hitInfo[i].name == "spieler")
+                        //Checks how daring the enemy can be
+                        //Less daring if near death
+                        if (health <= 25f)
                         {
-                            //Player looses lifepoints
-                            //hitInfo[i].GetComponent<PlayerHealth>().currentHealth = hitInfo[i].GetComponent<PlayerHealth>().currentHealth - weaponDamage; //TODO
-                            Debug.Log("Gegner macht Schaden!");
+                            agent.speed = runingSpeed / 2f;
                         }
-                        i++;
-                    }
-                    lastShot = Time.time * 1000;
-                }
-            }
-            else
-            {
-
-                float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - this.transform.position.x), 2) + Mathf.Pow((spieler.transform.position.y - this.transform.position.y), 2));
-
-                Vector3 differnce = this.transform.position - spieler.transform.position;
-
-                differnce.Normalize();
-                differnce *= distanceToPlayer;
-                agent.SetDestination(differnce + spieler.transform.position);
-                transform.LookAt(spieler.transform.position);
-                if (isReloading)
-                {
-                    return;
-                }
-                if (ammoCapacity >= 1)
-                {
-
-                    if ((lastShot - (Time.time * 1000)) <= -(60000 / feuerRateMin))
-                    {
-                        //shooting
-                        Vector3 dirToTarget = (spieler.transform.position - transform.position).normalized;
-                        RaycastHit hit;
-                        //Check if Player or Bullet not obstructed by wall
-                        if (Physics.Raycast(transform.position, dirToTarget, out hit, Mathf.Infinity))
+                        //More daring if player's near death
+                        else if (spielerLeben <= 25f)
                         {
-                            if (hit.collider.name == "spieler")
+                            agent.speed = runingSpeed * 1.2f;
+                            meleeRadius = meleeRadius - 1f;
+                        }
+                        //normal speed if both ok
+                        else
+                        {
+                            agent.speed = runingSpeed;
+                        }
+
+                        agent.SetDestination(spieler.transform.position);
+                        if ((lastShot - (Time.time * 1000)) <= -(60000 / meleeRateMin))
+                        {
+                            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId), gameObject);
+                            Collider[] hitInfo = Physics.OverlapSphere(this.transform.position + this.transform.TransformDirection(new Vector3(0f, 0f, meleeRange)), meleeRange);
+                            int i = 0;
+                            while (i < hitInfo.Length)
                             {
+                                if (hitInfo[i].name == "spieler")
+                                {
+                                    //Player looses lifepoints
+                                    //hitInfo[i].GetComponent<PlayerHealth>().currentHealth = hitInfo[i].GetComponent<PlayerHealth>().currentHealth - weaponDamage; //TODO
+                                    Debug.Log("Gegner macht Schaden!");
+                                }
+                                i++;
+                            }
+                            lastShot = Time.time * 1000;
+                        }
+                    }
+                    else
+                    {
+                        agent.updateRotation = false;
+
+                        float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - this.transform.position.x), 2) + Mathf.Pow((spieler.transform.position.y - this.transform.position.y), 2));
+
+                        Vector3 differnce = this.transform.position - spieler.transform.position;
+
+                        differnce.Normalize();
+                        differnce *= distanceToPlayer;
+                        agent.SetDestination(differnce + spieler.transform.position);
+                        Vector3 lookAtCords = spieler.transform.position;
+                        transform.LookAt(lookAtCords);
+                        if (isReloading)
+                        {
+                            return;
+                        }
+                        if (ammoCapacity >= 1)
+                        {
+
+                            if ((lastShot - (Time.time * 1000)) <= -(60000 / feuerRateMin))
+                            {
+                                //shooting
                                 audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId), gameObject);//shoot sound effect
 
-                                Vector3 unterschied = spieler.transform.position - this.transform.position;
+                                Vector3 unterschied = lookAtCords - this.transform.position;
                                 float rotationZ = Mathf.Atan2(unterschied.x, unterschied.z) * Mathf.Rad2Deg;
                                 float distance = unterschied.magnitude;
                                 Vector3 direction = unterschied / distance;
@@ -278,11 +280,16 @@ public class enemy : MonoBehaviour
                                 //BULLETCASING ende
                             }
                         }
+                        else
+                        {
+                            StartCoroutine(reload());
+                        }
                     }
                 }
                 else
                 {
-                    StartCoroutine(reload());
+                    agent.updateRotation = true;
+                    agent.SetDestination(spieler.transform.position);
                 }
             }
         }
@@ -309,6 +316,7 @@ public class enemy : MonoBehaviour
     }
     void enemyPatrol(Vector3[] points)
     {
+        agent.updateRotation = true;
         if (transform.position != points[patrolPos])
         {
             agent.SetDestination(points[patrolPos]);
@@ -335,6 +343,7 @@ public class enemy : MonoBehaviour
     }
     IEnumerator enemySearch()
     {
+        agent.updateRotation = true;
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(2.5f, 3f));
