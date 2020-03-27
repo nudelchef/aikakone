@@ -28,8 +28,7 @@ public class objects : MonoBehaviour
     {
         objectId = this.name.Substring(1);
         //loading objectsJson and setting stats
-        string pathToObjectsJson = Application.dataPath + "/objects.json";
-        objectsJSON = JSON.Parse(File.ReadAllText(pathToObjectsJson));
+        objectsJSON = JSON.Parse((Resources.Load("objects") as TextAsset).text);
         objectsHealth = float.Parse(objectsJSON[objectId]["objectsHealth"]);
         string objectsName = objectsJSON[objectId]["objectsName"];
         objectTextureName = objectsJSON[objectId]["textureName"];
