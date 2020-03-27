@@ -38,8 +38,7 @@ public class item : MonoBehaviour
         enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
 
-        pathToItemJson = Application.dataPath+"/items.json";
-        items = JSON.Parse(File.ReadAllText(pathToItemJson));
+        items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
         addMeleeToInventory("0");
     }

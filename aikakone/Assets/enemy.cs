@@ -82,13 +82,11 @@ public class enemy : MonoBehaviour
         spieler = GameObject.Find("spieler");
 
         //loading item.json
-        string pathToItemJson = Application.dataPath + "/items.json";
-        items = JSON.Parse(File.ReadAllText(pathToItemJson));
+        items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
         //loading enemy.json and setting stats
         enemyID = this.name.Substring(1);
-        string pathToEnemyJson = Application.dataPath + "/enemy.json";
-        enemyJSON = JSON.Parse(File.ReadAllText(pathToEnemyJson));
+        enemyJSON = JSON.Parse((Resources.Load("enemy") as TextAsset).text);
         rb = this.GetComponent<Rigidbody>();
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
