@@ -129,7 +129,7 @@ public class enemy : MonoBehaviour
             //Check if Player or Bullet in sight Radius
             if (objects.name == "spieler" || objects.name == "bullet(Clone)")
             {
-                if (Input.GetMouseButton(0) && !spieler.GetComponent<crosshair>().isMelee && spieler.GetComponent<crosshair>().canShoot)
+                if (Input.GetMouseButton(0) && spieler.GetComponent<crosshair>().itemType == "gun" && spieler.GetComponent<crosshair>().canShoot)
                 {
                     //Enemy hears shot
                     lastSeen = Time.time * 1000;

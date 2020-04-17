@@ -14,13 +14,11 @@ public class item : MonoBehaviour
     JSONNode items;
     public GameObject itemPrefab;
 
-
     public GameObject spieler;
     public float pickupRange = 1;
     private bool itemInHand = false;
     private GameObject[] allItems = new GameObject[1];
     private float[] allItemsDistancesToPlayer = new float[1];
-
 
     private int smallestDistanceIndex;
     private float playerToItemDistance;
@@ -142,7 +140,7 @@ public class item : MonoBehaviour
         spieler.GetComponent<crosshair>().magCapacity = float.Parse(items[itemId]["magCapacity"]);
         spieler.GetComponent<crosshair>().reloadTime = float.Parse(items[itemId]["reloadTime"]);
         spieler.GetComponent<crosshair>().bulletSpeed = float.Parse(items[itemId]["bulletSpeed"]);
-        spieler.GetComponent<crosshair>().isMelee = false;
+        spieler.GetComponent<crosshair>().itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
         spieler.GetComponent<crosshair>().itemId = itemId;
         spieler.GetComponent<crosshair>().useSoundName = items[itemId]["useSoundName"];
         spieler.GetComponent<crosshair>().reloadSoundName = items[itemId]["reloadSoundName"];
@@ -162,9 +160,9 @@ public class item : MonoBehaviour
         spieler.GetComponent<melee>().weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
         spieler.GetComponent<melee>().meleeRange = float.Parse(items[itemId]["range"]);
         spieler.GetComponent<melee>().meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
-        spieler.GetComponent<crosshair>().isMelee = true;
         spieler.GetComponent<melee>().itemId = itemId;
         spieler.GetComponent<melee>().useSoundName = items[itemId]["useSoundName"];
+        spieler.GetComponent<crosshair>().itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
 
         pickupSound = items[itemId]["pickupSoundName"];
         textureName = items[itemId]["textureName"];

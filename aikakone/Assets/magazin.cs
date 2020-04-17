@@ -95,7 +95,7 @@ public class magazin : MonoBehaviour
 
     public void updateAmmoCount()
     {
-        if (spieler.GetComponent<crosshair>().isMelee)
+        if (spieler.GetComponent<crosshair>().itemType == "melee")
         {
             textMeshMags.text = "";
             textMesh.text = "";

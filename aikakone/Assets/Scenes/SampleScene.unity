@@ -1823,7 +1823,7 @@ MonoBehaviour:
   magCapacity: 2
   reloadTime: 0.5
   bulletSpeed: 3000
-  isMelee: 0
+  itemType: 
   itemId: 1
   useSoundName: 1
   reloadSoundName: 1reload
@@ -4274,7 +4274,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.25
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 4b6489d80d0012849978509ec6d16674, type: 2}
 --- !u!4 &1315912224

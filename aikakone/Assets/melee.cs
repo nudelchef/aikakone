@@ -17,7 +17,7 @@ public class melee : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            if (spieler.GetComponent<crosshair>().isMelee)
+            if (spieler.GetComponent<crosshair>().itemType == "melee")
             {
                 if ((lastShot - (Time.time * 1000)) <= -(60000 / meleeRateMin))
                 {

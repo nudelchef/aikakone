@@ -17,7 +17,7 @@ public class crosshair : MonoBehaviour
     public float magCapacity = 2f;
     public float reloadTime = 0.5f;
     public float bulletSpeed = 3000f;
-    public bool isMelee;
+    public string itemType;
     public string itemId = "1";
     public string useSoundName = "1";
     public string reloadSoundName = "1reload";
@@ -57,7 +57,7 @@ public class crosshair : MonoBehaviour
         //schießen
         if (Input.GetMouseButton(0))
         {
-            if (!isMelee)
+            if (itemType == "gun")
             {   
                  if((lastShot-(Time.time*1000)) <= -(60000/ feuerRateMin))
                  {
