@@ -4,7 +4,8 @@ using UnityEngine;
 using System.IO;
 using SimpleJSON;
 using static audioManager;
-
+using System.Threading;
+using System.Globalization;
 using static enemy;
 using static objects;
 
@@ -44,7 +45,9 @@ public class item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            if (Input.GetMouseButtonDown(1))
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+
+        if (Input.GetMouseButtonDown(1))
             {
                   pickUpAndDrop();
             }

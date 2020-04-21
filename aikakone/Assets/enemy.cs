@@ -116,8 +116,8 @@ public class enemy : MonoBehaviour
         else if (itemType == "gun")
         {
             reloadTime = float.Parse(items[itemId]["reloadTime"]);
-            ammoCapacity = maxAmmoCapacity;
             maxAmmoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
+            ammoCapacity = maxAmmoCapacity;
             weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
             range = float.Parse(items[itemId]["range"]);
         }
