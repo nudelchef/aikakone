@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using SimpleJSON;
 using System.IO;
+using System.Threading;
+using System.Globalization;
 
 public class objects : MonoBehaviour
 {
@@ -26,6 +28,8 @@ public class objects : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+
         objectId = this.name.Substring(1);
         //loading objectsJson and setting stats
         objectsJSON = JSON.Parse((Resources.Load("objects") as TextAsset).text);

@@ -7,6 +7,9 @@ using static countdown;
 using static userInterface;
 using static enemy;
 using SimpleJSON;
+using System.Threading;
+using System.Globalization;
+
 //NEW
 public class PlayerHealth : MonoBehaviour
 {
@@ -33,6 +36,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
         currentHealth = maxHealth;
     }
 
