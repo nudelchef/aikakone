@@ -50,4 +50,30 @@
     "reloadSoundName": "3reload",
     "textureName": "3"
   },
+  "5": {
+    "itemName": "Revolver",
+    "itemType": "gun",
+    "range": "1",
+    "weaponDamage": "85",
+    "feuerRateMin": "60",
+    "ammoCapacity": "6",
+    "magCapacity": "3",
+    "reloadTime": "600",
+    "bulletSpeed": "3000",
+    "useSoundName": "5",
+    "pickupSoundName": "pickup",
+    "reloadSoundName": "5reload",
+    "textureName": "5"
+  },
+  "6": {
+    "itemName": "Sword",
+    "weaponDamage": "80",
+    "range": "1",
+    "itemType": "melee",
+    "meleeRange": "2",
+    "meleeRateMin": "180",
+    "useSoundName": "6",
+    "pickupSoundName": "pickup",
+    "textureName": "6"
+  },
 }

@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.IO;
+using System.Collections.Generic;
 using static countdown;
-
+using static userInterface;
+using static enemy;
+using SimpleJSON;
+//NEW
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 3;
     public int currentHealth;
     public GameObject player;
 
+    //vars for Highscore-JSON
+    public string name = "Test";
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -48,5 +56,22 @@ public class PlayerHealth : MonoBehaviour
         /*Destroy(player);
 
         Time.timeScale = 0;*///TODO
+    }
+
+    public void saveHighscore()     //by Sutorei
+    {
+        JSONNode oldHighscoreJSON = JSON.Parse((Resources.Load("highscores") as TextAsset).text);
+
+        JSONObject highscoreJSON = new JSONObject();
+        string highscore = userInterface.highscore.ToString();
+
+        highscoreJSON.Add("Highscore:", highscore);
+        highscoreJSON.Add("Name:", name); // TODO NICO: BRAUCHT EINE NAMENSEINGABE + UI-ANBINDUNG
+        highscoreJSON.Add("Date:", DateTime.Now.ToString()); //Datum + Uhrzeit
+
+        oldHighscoreJSON.Add(highscoreJSON);
+
+        string path = Application.dataPath + "/Resources/highscores.txt";
+        File.WriteAllText(path, oldHighscoreJSON.ToString());
     }
 }

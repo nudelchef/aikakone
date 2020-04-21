@@ -7,7 +7,9 @@ using System.IO;
 using static countdown;
 using static audioManager;
 using static poolManager;
-
+using System.Threading;
+using System.Globalization;
+using static userInterface;
 
 public class enemy : MonoBehaviour
 {
@@ -27,13 +29,13 @@ public class enemy : MonoBehaviour
     public float health = 100f;
     public string enemyID;
     public int timeWonInSeconds;
-    public int highscore = 0;
+
     public string itemId;
     public string itemType;
     public string textureDeadName; //TODO USE THIS TEXTURE IF ENEMY DIES
+    public bool justDied = true;
 
     //vars for shooting
-    public float distanceToPlayer = 10;
     private Vector3 casingVelocity;
     private Vector3 target;
     private float lastShot = 0;
@@ -52,8 +54,6 @@ public class enemy : MonoBehaviour
 
     //vars for melee
     public bool isEnemyMelee = false;
-    public float meleeRadius;
-    public float meleeRange = 1f;
     public float meleeRateMin = 120f;
     private int weaponDamage;
 
@@ -79,28 +79,49 @@ public class enemy : MonoBehaviour
 
     void Start()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+
+        spieler = GameObject.Find("spieler");
+
         spieler = GameObject.Find("spieler");
 
         //loading item.json
         items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
-        //loading enemy.json and setting stats
+
         enemyID = this.name.Substring(1);
-        enemyJSON = JSON.Parse((Resources.Load("enemy") as TextAsset).text);
+
         rb = this.GetComponent<Rigidbody>();
+
+        //loading enemy.json and setting stats
+        enemyJSON = JSON.Parse((Resources.Load("enemy") as TextAsset).text);
+
+        itemId = enemyJSON[enemyID]["itemId"];
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
         health = float.Parse(enemyJSON[enemyID]["enemyHealth"]);
-        enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]); //TODO USE TIHS VALUE FOR lookAtCords
-        timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
-        itemId = enemyJSON[enemyID]["itemId"];
+
+
+
         textureDeadName = enemyJSON[enemyID]["textureDeadName"];
+        enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]);
+        timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
+
         itemType = items[itemId]["itemType"];
-        maxAmmoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
-        reloadTime = float.Parse(items[itemId]["reloadTime"]);
-        ammoCapacity = maxAmmoCapacity;
-        weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
-        range = float.Parse(items[itemId]["range"]);
+        if (itemType == "melee")
+        {
+            weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
+            range = float.Parse(items[itemId]["range"]);
+        }
+        else if (itemType == "gun")
+        {
+            reloadTime = float.Parse(items[itemId]["reloadTime"]);
+            ammoCapacity = maxAmmoCapacity;
+            maxAmmoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
+            weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
+            range = float.Parse(items[itemId]["range"]);
+        }
+
         reloadSoundName = items[itemId]["reloadSoundName"];
         this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureName"]); //Sets texture
 
@@ -117,9 +138,18 @@ public class enemy : MonoBehaviour
         //die
         if (health < 1)
         {
-            Destroy(gameObject);
-            countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
-            highscore = highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore -> MUSS ICH NOCH ALS ANZEIGE IN-GAME EINFÜGEN UND DAS DANN ORDENTLICH VERKNÜPFEN
+            if (justDied) //if it just died
+            {
+                this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureDeadName"]); //sets corpse-texture
+                agent.Stop(); //let's it stop moving
+                countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
+                userInterface.highscore = userInterface.highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore
+                justDied = false;
+            }
+            else //if it didn't just died, there's nothing to do for it
+            {
+                return;
+            }
         }
 
         //enemy sight
@@ -181,7 +211,6 @@ public class enemy : MonoBehaviour
                         else if (spielerLeben <= 25f)
                         {
                             agent.speed = runingSpeed * 1.2f;
-                            meleeRadius = meleeRadius - 1f;
                         }
                         //normal speed if both ok
                         else
@@ -189,21 +218,26 @@ public class enemy : MonoBehaviour
                             agent.speed = runingSpeed;
                         }
 
-                        agent.SetDestination(spieler.transform.position);
+                        Vector3 differnce = this.transform.position - spieler.transform.position;
+
+                        differnce.Normalize();
+                        differnce *= 1f;
+                        agent.SetDestination(differnce + spieler.transform.position);
+
                         if ((lastShot - (Time.time * 1000)) <= -(60000 / meleeRateMin))
                         {
-                            audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId), gameObject);
-                            Collider[] hitInfo = Physics.OverlapSphere(this.transform.position + this.transform.TransformDirection(new Vector3(0f, 0f, meleeRange)), meleeRange);
-                            int i = 0;
-                            while (i < hitInfo.Length)
+                            float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - this.transform.position.x), 2) + Mathf.Pow((spieler.transform.position.y - this.transform.position.y), 2));
+                            // Debug.Log("Spielerentfernung:" + spielerEntfernung.ToString());
+                            // Debug.Log("Range:" + range.ToString());
+                            if (spielerEntfernung <= range)
                             {
-                                if (hitInfo[i].name == "spieler")
-                                {
-                                    //Player looses lifepoints
-                                    //hitInfo[i].GetComponent<PlayerHealth>().currentHealth = hitInfo[i].GetComponent<PlayerHealth>().currentHealth - weaponDamage; //TODO
-                                    Debug.Log("Gegner macht Schaden!");
-                                }
-                                i++;
+                                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + itemId), gameObject);
+                                //TODO
+                                //Player looses lifepoints
+                                //hitInfo[i].GetComponent<PlayerHealth>().currentHealth = hitInfo[i].GetComponent<PlayerHealth>().currentHealth - weaponDamage; //TODO
+                                Debug.Log("Gegner macht Schaden!");
+
+
                             }
                             lastShot = Time.time * 1000;
                         }
@@ -212,15 +246,16 @@ public class enemy : MonoBehaviour
                     {
                         agent.updateRotation = false;
 
-                        float spielerEntfernung = Mathf.Sqrt(Mathf.Pow((spieler.transform.position.x - this.transform.position.x), 2) + Mathf.Pow((spieler.transform.position.y - this.transform.position.y), 2));
-
+                        
                         Vector3 differnce = this.transform.position - spieler.transform.position;
 
                         differnce.Normalize();
-                        differnce *= distanceToPlayer;
+                        differnce *= range;
                         agent.SetDestination(differnce + spieler.transform.position);
-                        Vector3 lookAtCords = spieler.transform.position;
+                        Vector3 lookAtCords = spieler.transform.position + new Vector3(((Random.Range(-100f, 100f) * (1f - enemyPrecision)) / 100f), 0, ((Random.Range(-100f, 100f) * (1f - enemyPrecision)) / 100f));
+
                         transform.LookAt(lookAtCords);
+
                         if (isReloading)
                         {
                             return;
@@ -236,8 +271,8 @@ public class enemy : MonoBehaviour
                                 Vector3 unterschied = lookAtCords - this.transform.position;
                                 float rotationZ = Mathf.Atan2(unterschied.x, unterschied.z) * Mathf.Rad2Deg;
                                 float distance = unterschied.magnitude;
-                                Vector3 direction = unterschied / distance;
-                                direction.Normalize();
+                                Vector3 direction = unterschied / distance;//TODO 20.04.2020 evtl. nicht mehr verwendet
+                                direction.Normalize();//TODO 20.04.2020 evtl. nicht mehr verwendet
 
                                 //SpawnBullet
                                 GameObject bullet = poolManager.spawnObject(0);

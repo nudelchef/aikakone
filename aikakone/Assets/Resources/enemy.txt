@@ -15,12 +15,36 @@
     "enemyName": "Zombie-Soldier",
     "enemyHealth": "100",
     "itemId": "1",
-    "enemyPrecision": "0.75",
+    "enemyPrecision": "0",
     "movementSpeed": "5",
-    "runningSpeed": "10",
+    "runningSpeed": "7",
     "animationId": "0",
     "timeWonInSeconds": "25",
     "textureName": "2",
     "textureDeadName": "2"
+  },
+  "3": {
+    "enemyName": "Servant",
+    "enemyHealth": "25",
+    "itemId": "",
+    "enemyPrecision": "0",
+    "movementSpeed": "10",
+    "runningSpeed": "20",
+    "animationId": "0",
+    "timeWonInSeconds": "0",
+    "textureName": "3",
+    "textureDeadName": "3"
+  },
+  "4": {
+    "enemyName": "Minotaurus",
+    "enemyHealth": "250",
+    "itemId": "1",
+    "enemyPrecision": "0.25",
+    "movementSpeed": "2",
+    "runningSpeed": "8",
+    "animationId": "0",
+    "timeWonInSeconds": "45",
+    "textureName": "4",
+    "textureDeadName": "5"
   }
 }
