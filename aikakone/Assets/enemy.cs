@@ -83,8 +83,6 @@ public class enemy : MonoBehaviour
 
         spieler = GameObject.Find("spieler");
 
-        spieler = GameObject.Find("spieler");
-
         //loading item.json
         items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
@@ -142,6 +140,11 @@ public class enemy : MonoBehaviour
             {
                 this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureDeadName"]); //sets corpse-texture
                 agent.Stop(); //let's it stop moving
+
+                GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItem(itemId.ToString(), this.transform.position); //Spawn item mit der itemId 1 und den Koordinaten X:0 Y:1.5 Z:0
+                itemObject.GetComponent<itemStats>().ammoLeft = ammoCapacity; //Ammo the enemy had in stock while dying
+                itemObject.GetComponent<itemStats>().magLeft = Random.Range(0, 2); //Random Magazine-Count
+
                 countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
                 userInterface.highscore = userInterface.highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore
                 justDied = false;
