@@ -26,7 +26,6 @@ public class item : MonoBehaviour
     private float smallestDistance;
 
     public string pickupSound = "pickup";
-    public string textureName = "1";
 
     public string itemInHandId = "";
     public string itemInHandType = "";
@@ -113,7 +112,7 @@ public class item : MonoBehaviour
         b.transform.position = position; //Setzt position
         b.transform.rotation = Quaternion.Euler(0f, Random.Range(-360f, 360f), 0f); //Setzt zufällige rotation
         b.name = "i"+itemId; //Setzt Objektname
-        b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + textureName); //Setzt Texture
+        b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + items[itemId]["textureName"].ToString().Trim('"')); //Setzt Texture
         return b;
     }
 
@@ -149,7 +148,6 @@ public class item : MonoBehaviour
         spieler.GetComponent<crosshair>().reloadSoundName = items[itemId]["reloadSoundName"];
 
         pickupSound = items[itemId]["pickupSoundName"];
-        textureName = items[itemId]["textureName"];
 
         itemInHandId = itemId;
         itemInHand = true;
@@ -168,7 +166,6 @@ public class item : MonoBehaviour
         spieler.GetComponent<crosshair>().itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
 
         pickupSound = items[itemId]["pickupSoundName"];
-        textureName = items[itemId]["textureName"];
 
         itemInHandId = itemId;
         itemInHand = true;
