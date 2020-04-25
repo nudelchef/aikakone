@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); // WRITE EVERYTHING AFTER THIS LINE!
         currentHealth = maxHealth;
     }
 
@@ -64,7 +64,16 @@ public class PlayerHealth : MonoBehaviour
 
     public void saveHighscore()     //by Sutorei
     {
-        JSONNode oldHighscoreJSON = JSON.Parse((Resources.Load("highscores") as TextAsset).text);
+        JSONNode oldHighscoreJSON;
+        string persistendFilePath = Application.persistentDataPath+"\\highscores.txt";
+        if (System.IO.File.Exists(persistendFilePath))
+        {
+            oldHighscoreJSON = JSON.Parse(string.Join("",System.IO.File.ReadAllLines(persistendFilePath)));
+        }
+        else
+        {
+            oldHighscoreJSON = JSON.Parse((Resources.Load("highscores") as TextAsset).text);
+        }
 
         JSONObject highscoreJSON = new JSONObject();
         string highscore = userInterface.highscore.ToString();
@@ -75,7 +84,6 @@ public class PlayerHealth : MonoBehaviour
 
         oldHighscoreJSON.Add(highscoreJSON);
 
-        string path = Application.dataPath + "/Resources/highscores.txt";
-        File.WriteAllText(path, oldHighscoreJSON.ToString());
+        File.WriteAllText(persistendFilePath, oldHighscoreJSON.ToString());
     }
 }

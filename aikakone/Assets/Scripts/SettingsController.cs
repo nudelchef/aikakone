@@ -3,11 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 using System.IO;
 using SimpleJSON;
+using System.Threading;
+using System.Globalization;
 using static audioManager;
 
 public class SettingsController : MonoBehaviour {
 
-    string pathToSettingJson = "";
     JSONNode settings;
 
     public Toggle fullscreenToggle;
@@ -15,6 +16,7 @@ public class SettingsController : MonoBehaviour {
     public Slider musicVolume;
     public Slider sfxVolume;
     public Button saveButton;
+    private string persistendFilePath = Application.persistentDataPath + "\\gamesettings.txt";
 
     void OnEnable()
     {
@@ -25,6 +27,7 @@ public class SettingsController : MonoBehaviour {
 
 public void saveSettings()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); // WRITE EVERYTHING AFTER THIS LINE!
         JSONObject settingJSON = new JSONObject();
 
         settingJSON.Add("fullscreen", fullscreenToggle.isOn);
@@ -32,8 +35,7 @@ public void saveSettings()
         settingJSON.Add("musicVolume", musicVolume.value);
         settingJSON.Add("sfxVolume", sfxVolume.value);
 
-        string path = Application.dataPath + "/Resources/gamesettings.json";
-        File.WriteAllText(path, settingJSON.ToString());
+        File.WriteAllText(persistendFilePath, settingJSON.ToString());
 
         audioManager.loadSettings();
 
@@ -42,8 +44,15 @@ public void saveSettings()
 
     public void loadSettings()
     {
-        pathToSettingJson = Application.dataPath + "/Resources/gamesettings.json";
-        settings = JSON.Parse(File.ReadAllText(pathToSettingJson));
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); // WRITE EVERYTHING AFTER THIS LINE!
+        if (System.IO.File.Exists(persistendFilePath))
+        {
+            settings = JSON.Parse(string.Join("", System.IO.File.ReadAllLines(persistendFilePath)));
+        }
+        else
+        {
+            settings = JSON.Parse((Resources.Load("gamesettings") as TextAsset).text);
+        }
 
         fullscreenToggle.isOn = settings["fullscreen"];
         masterVolume.value = settings["masterVolume"];

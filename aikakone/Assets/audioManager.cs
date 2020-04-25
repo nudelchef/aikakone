@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using SimpleJSON;
+using System.Threading;
+using System.Globalization;
 
 public class audioManager : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class audioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); // WRITE EVERYTHING AFTER THIS LINE!
         loadSettings();
 
         camera = GameObject.Find("Camera");
@@ -21,8 +24,17 @@ public class audioManager : MonoBehaviour
 
     public static void loadSettings()
     {
-        string pathToSettingJson = Application.dataPath + "/Resources/gamesettings.json";
-        JSONNode settings = JSON.Parse(File.ReadAllText(pathToSettingJson));
+        JSONNode settings;
+        string persistendFilePath = Application.persistentDataPath + "\\gamesettings.txt";
+        if (System.IO.File.Exists(persistendFilePath))
+        {
+            settings = JSON.Parse(string.Join("", System.IO.File.ReadAllLines(persistendFilePath)));
+        }
+        else
+        {
+            settings = JSON.Parse((Resources.Load("gamesettings") as TextAsset).text);
+        }
+
 
         musicVolume = (settings["musicVolume"] / 100f) * (settings["masterVolume"] / 100f);
         sfxVolume = (settings["sfxVolume"] / 100f) * (settings["masterVolume"] / 100f);
