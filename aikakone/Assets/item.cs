@@ -24,6 +24,9 @@ public class item : MonoBehaviour
     private int smallestDistanceIndex;
     private float playerToItemDistance;
     private float smallestDistance;
+    private crosshair spielerCrosshair;
+    private melee spielerMelee;
+    private magazin ammoTextMagazin;
 
     public string pickupSound = "pickup";
 
@@ -32,6 +35,10 @@ public class item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spielerCrosshair = spieler.GetComponent<crosshair>();
+        spielerMelee = spieler.GetComponent<melee>();
+        ammoTextMagazin = GameObject.Find("ammoCapacityText").GetComponent<magazin>();
+
         enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
@@ -86,9 +93,9 @@ public class item : MonoBehaviour
                 dropItem(itemInHandId);
                 addGunToInventory(temp);
                 audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
-                GameObject.Find("ammoCapacityText").GetComponent<magazin>().ammoLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().ammoLeft;
-                GameObject.Find("ammoCapacityText").GetComponent<magazin>().magLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().magLeft;
-                GameObject.Find("ammoCapacityText").GetComponent<magazin>().updateAmmoCount();
+                ammoTextMagazin.ammoLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().ammoLeft;
+                ammoTextMagazin.magLeft = allItems[smallestDistanceIndex].GetComponent<itemStats>().magLeft;
+                ammoTextMagazin.updateAmmoCount();
             }
             else if (itemInHandType == "melee")
             {
@@ -122,11 +129,12 @@ public class item : MonoBehaviour
         {
             audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/drop"), spieler);//drop sound effect
             //Stop current Reload
-            GameObject.Find("ammoCapacityText").GetComponent<magazin>().stopReload();
+            ammoTextMagazin.stopReload();
             //Create Item Object
             GameObject itemObject = spawnItem(itemId, spieler.transform.position); //Spawn item
-            itemObject.GetComponent<itemStats>().ammoLeft = GameObject.Find("ammoCapacityText").GetComponent<magazin>().ammoLeft; //Setzt übrige Munition des Item auf derzeitige übrige Munition
-            itemObject.GetComponent<itemStats>().magLeft = GameObject.Find("ammoCapacityText").GetComponent<magazin>().magLeft; //Setzt übrige Magazine des Item auf derzeitige übrige Magazine
+            itemStats itemObjectStats = itemObject.GetComponent<itemStats>();
+            itemObjectStats.ammoLeft = ammoTextMagazin.ammoLeft; //Setzt übrige Munition des Item auf derzeitige übrige Munition
+            itemObjectStats.magLeft = ammoTextMagazin.magLeft; //Setzt übrige Magazine des Item auf derzeitige übrige Magazine
                                                                                                                                 
             addMeleeToInventory("0");//Setzt Current Weapon to "Hands"
             itemInHand = false;
@@ -136,16 +144,16 @@ public class item : MonoBehaviour
     public void addGunToInventory(string itemId)
     {
         //Set all Weapon stats
-        spieler.GetComponent<crosshair>().weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
-        spieler.GetComponent<crosshair>().feuerRateMin = float.Parse(items[itemId]["feuerRateMin"]);
-        spieler.GetComponent<crosshair>().ammoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
-        spieler.GetComponent<crosshair>().magCapacity = float.Parse(items[itemId]["magCapacity"]);
-        spieler.GetComponent<crosshair>().reloadTime = float.Parse(items[itemId]["reloadTime"]);
-        spieler.GetComponent<crosshair>().bulletSpeed = float.Parse(items[itemId]["bulletSpeed"]);
-        spieler.GetComponent<crosshair>().itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
-        spieler.GetComponent<crosshair>().itemId = itemId;
-        spieler.GetComponent<crosshair>().useSoundName = items[itemId]["useSoundName"];
-        spieler.GetComponent<crosshair>().reloadSoundName = items[itemId]["reloadSoundName"];
+        spielerCrosshair.weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
+        spielerCrosshair.feuerRateMin = float.Parse(items[itemId]["feuerRateMin"]);
+        spielerCrosshair.ammoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
+        spielerCrosshair.magCapacity = float.Parse(items[itemId]["magCapacity"]);
+        spielerCrosshair.reloadTime = float.Parse(items[itemId]["reloadTime"]);
+        spielerCrosshair.bulletSpeed = float.Parse(items[itemId]["bulletSpeed"]);
+        spielerCrosshair.itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
+        spielerCrosshair.itemId = itemId;
+        spielerCrosshair.useSoundName = items[itemId]["useSoundName"];
+        spielerCrosshair.reloadSoundName = items[itemId]["reloadSoundName"];
 
         pickupSound = items[itemId]["pickupSoundName"];
 
@@ -153,17 +161,17 @@ public class item : MonoBehaviour
         itemInHand = true;
 
         //Update Magazin Info
-        GameObject.Find("ammoCapacityText").GetComponent<magazin>().Start();
+        ammoTextMagazin.Start();
     }
     public void addMeleeToInventory(string itemId)
     {
         //Set all Weapon stats
-        spieler.GetComponent<melee>().weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
-        spieler.GetComponent<melee>().meleeRange = float.Parse(items[itemId]["range"]);
-        spieler.GetComponent<melee>().meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
-        spieler.GetComponent<melee>().itemId = itemId;
-        spieler.GetComponent<melee>().useSoundName = items[itemId]["useSoundName"];
-        spieler.GetComponent<crosshair>().itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
+        spielerMelee.weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
+        spielerMelee.meleeRange = float.Parse(items[itemId]["range"]);
+        spielerMelee.meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
+        spielerMelee.itemId = itemId;
+        spielerMelee.useSoundName = items[itemId]["useSoundName"];
+        spielerCrosshair.itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
 
         pickupSound = items[itemId]["pickupSoundName"];
 
@@ -171,6 +179,6 @@ public class item : MonoBehaviour
         itemInHand = true;
 
         //Update Magazin Info
-        GameObject.Find("ammoCapacityText").GetComponent<magazin>().Start();
+        ammoTextMagazin.Start();
     }
 }
