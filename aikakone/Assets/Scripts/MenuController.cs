@@ -82,8 +82,6 @@ public class MenuController : MonoBehaviour {
 
     void Start()
     {
-        audioManager.loadSettings();
-
         instance = this;
         //Set the activeBackground array length
         if (useParallax) { activeBackground = new GameObject[backgroundsParallax.Length]; } else { activeBackground = new GameObject[backgrounds.Length]; }

@@ -37,8 +37,6 @@ public void saveSettings()
 
         File.WriteAllText(persistendFilePath, settingJSON.ToString());
 
-        audioManager.loadSettings();
-
         MenuController.instance.closeOptions();
     }
 

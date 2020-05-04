@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.IO;
-using System.Collections.Generic;
 using static countdown;
 using static userInterface;
 using static enemy;
 using SimpleJSON;
 using System.Threading;
 using System.Globalization;
+using System.Net;
 
 //NEW
 public class PlayerHealth : MonoBehaviour
@@ -65,10 +64,10 @@ public class PlayerHealth : MonoBehaviour
     public void saveHighscore()     //by Sutorei
     {
         JSONNode oldHighscoreJSON;
-        string persistendFilePath = Application.persistentDataPath+"\\highscores.txt";
+        string persistendFilePath = Application.persistentDataPath + "\\highscores.txt";
         if (System.IO.File.Exists(persistendFilePath))
         {
-            oldHighscoreJSON = JSON.Parse(string.Join("",System.IO.File.ReadAllLines(persistendFilePath)));
+            oldHighscoreJSON = JSON.Parse(string.Join("", System.IO.File.ReadAllLines(persistendFilePath)));
         }
         else
         {
@@ -76,14 +75,37 @@ public class PlayerHealth : MonoBehaviour
         }
 
         JSONObject highscoreJSON = new JSONObject();
-        string highscore = userInterface.highscore.ToString();
+        int highscore = userInterface.highscore;
+        string currentTime = DateTime.Now.ToString();
 
-        highscoreJSON.Add("Highscore:", highscore);
+        highscoreJSON.Add("Highscore:", highscore.ToString());
         highscoreJSON.Add("Name:", name); // TODO NICO: BRAUCHT EINE NAMENSEINGABE + UI-ANBINDUNG
-        highscoreJSON.Add("Date:", DateTime.Now.ToString()); //Datum + Uhrzeit
+        highscoreJSON.Add("Date:", currentTime); //Datum + Uhrzeit
 
         oldHighscoreJSON.Add(highscoreJSON);
 
         File.WriteAllText(persistendFilePath, oldHighscoreJSON.ToString());
+
+        uploadHighscore(name, highscore, currentTime);
+    }
+
+    public void uploadHighscore(string name, int score, string timestamp)
+    {
+        string url = "http://h2882072.stratoserver.net/setHighscore.php" +
+                     "?name=" + name +
+                     "&score=" + score +
+                     "&date=" + timestamp;
+        try
+        {
+            using (var webClient = new WebClient())
+            {
+                var response = webClient.DownloadString(url);
+            }
+        }
+        catch
+        {
+            //ERROR UPLOADING HIGHSCORE
+        }
+
     }
 }
