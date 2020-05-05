@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject player;
 
     //vars for Highscore-JSON
-    public string name = "Test";
+    public static string name = "";
 
     private void OnCollisionEnter(Collision collision)
     {

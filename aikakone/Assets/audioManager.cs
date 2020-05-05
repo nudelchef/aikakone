@@ -9,14 +9,14 @@ public class audioManager : MonoBehaviour
         playMusicOnObject(Resources.Load<AudioClip>("audio/music/1"), camera, true);
     }
 
-    public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn, float volume = 0.25f)
+    public static void playClipOnObject(AudioClip clip, GameObject objectToPlayOn, float volume = 0.5f)
     {
         AudioSource source = objectToPlayOn.GetComponent<AudioSource>();
         source.volume = volume; //set clip volume
         source.PlayOneShot(clip, 1f); //Play Clip
     }
 
-    public static void playMusicOnObject(AudioClip clip, GameObject objectToPlayOn, bool loop = false, float volume = 0.15f)
+    public static void playMusicOnObject(AudioClip clip, GameObject objectToPlayOn, bool loop = false, float volume = 0.5f)
     {
         AudioSource source = objectToPlayOn.GetComponent<AudioSource>();
         source.clip = clip; //Load Audio Clip

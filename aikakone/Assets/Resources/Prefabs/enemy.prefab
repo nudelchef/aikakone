@@ -120,13 +120,22 @@ MonoBehaviour:
   range: 0
   health: 100
   enemyID: 
-  timer: 0
   timeWonInSeconds: 0
+  itemId: 
+  itemType: 
+  textureDeadName: 
+  justDied: 1
+  bulletSpeed: 3000
+  feuerRateMin: 450
+  maxAmmoCapacity: 0
+  reloadTime: 0
+  ammoCapacity: 0
+  reloadSoundName: 
   viewAngel: 110
   viewRadius: 12.5
   viewRememberTime: 2000
   isEnemyMelee: 0
-  meleeRadius: 0
+  meleeRateMin: 120
   agent: {fileID: 7908074477434917540}
 --- !u!195 &7908074477434917540
 NavMeshAgent:
@@ -173,7 +182,8 @@ AudioSource:
   m_GameObject: {fileID: 7908074477434917215}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 210426548464954107, guid: 3a478017b822e444088070860905d33f,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

@@ -465,7 +465,7 @@ MonoBehaviour:
   magCapacity: 2
   reloadTime: 0.5
   bulletSpeed: 3000
-  isMelee: 0
+  itemType: 
   itemId: 1
   useSoundName: 1
   reloadSoundName: 1reload
@@ -506,7 +506,6 @@ MonoBehaviour:
   spieler: {fileID: 463605389}
   pickupRange: 1
   pickupSound: pickup
-  textureName: 1
   itemInHandId: 
   itemInHandType: 
 --- !u!114 &463605399
@@ -540,6 +539,7 @@ MonoBehaviour:
   maxHealth: 3
   currentHealth: 3
   player: {fileID: 0}
+  name: Test
 --- !u!82 &463605401
 AudioSource:
   m_ObjectHideFlags: 0
@@ -549,7 +549,8 @@ AudioSource:
   m_GameObject: {fileID: 463605389}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 210426548464954107, guid: 3a478017b822e444088070860905d33f,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -850,7 +851,8 @@ AudioSource:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 979607142901037365, guid: 3a478017b822e444088070860905d33f,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1844,7 +1846,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.25
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 4b6489d80d0012849978509ec6d16674, type: 2}
 --- !u!4 &1315912224
