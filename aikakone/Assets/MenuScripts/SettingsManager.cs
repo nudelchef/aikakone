@@ -31,7 +31,7 @@ public class SettingsManager : MonoBehaviour
     {
         persistendFilePath = Application.persistentDataPath + "\\gamesettings.txt";
         resolutions = getResolutions();
-        loadSettingsInUI();
+        Invoke("loadSettingsInUI", 0f);
     }
 
     public void saveSettings()
