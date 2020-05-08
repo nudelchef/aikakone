@@ -23,6 +23,10 @@ public class SettingsManager : MonoBehaviour
     public Slider effectsVolume;
 
     public AudioMixer audioMixer;
+
+    public GameObject mainMenu;
+    public GameObject settingsMenu;
+
     private List<Resolution> resolutions;
 
     private static string persistendFilePath;
@@ -32,6 +36,16 @@ public class SettingsManager : MonoBehaviour
         persistendFilePath = Application.persistentDataPath + "\\gamesettings.txt";
         resolutions = getResolutions();
         Invoke("loadSettingsInUI", 0f);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            saveSettings();
+            settingsMenu.SetActive(false);
+            mainMenu.SetActive(true);
+        }
     }
 
     public void saveSettings()

@@ -974,6 +974,8 @@ MonoBehaviour:
   musicVolume: {fileID: 1614497503}
   effectsVolume: {fileID: 1103480822}
   audioMixer: {fileID: 24100000, guid: 3a478017b822e444088070860905d33f, type: 2}
+  mainMenu: {fileID: 2009720051}
+  settingsMenu: {fileID: 1974263931}
 --- !u!1 &217037280
 GameObject:
   m_ObjectHideFlags: 0
