@@ -7,7 +7,8 @@
     "meleeRateMin": "200",
     "useSoundName": "0",
     "pickupSoundName": "pickup",
-    "textureName": "0"
+    "textureName": "0",
+    "droppable": false
   },
   "1": {
     "itemName": "AK47",
@@ -22,7 +23,8 @@
     "useSoundName": "1",
     "pickupSoundName": "pickup",
     "reloadSoundName": "1reload",
-    "textureName": "1"
+    "textureName": "1",
+    "droppable": true
   },
   "2": {
     "itemName": "Knife",
@@ -33,7 +35,8 @@
     "meleeRateMin": "240",
     "useSoundName": "2",
     "pickupSoundName": "pickup",
-    "textureName": "2"
+    "textureName": "2",
+    "droppable": true
   },
   "3": {
     "itemName": "UZI",
@@ -48,7 +51,8 @@
     "useSoundName": "3",
     "pickupSoundName": "pickup",
     "reloadSoundName": "3reload",
-    "textureName": "3"
+    "textureName": "3",
+    "droppable": true
   },
   "5": {
     "itemName": "Revolver",
@@ -63,7 +67,8 @@
     "useSoundName": "5",
     "pickupSoundName": "pickup",
     "reloadSoundName": "5reload",
-    "textureName": "5"
+    "textureName": "5",
+    "droppable": true
   },
   "6": {
     "itemName": "Sword",
@@ -74,6 +79,7 @@
     "meleeRateMin": "180",
     "useSoundName": "6",
     "pickupSoundName": "pickup",
-    "textureName": "6"
-  },
+    "textureName": "6",
+    "droppable": true
+  }
 }

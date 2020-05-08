@@ -88,6 +88,7 @@ public class item : MonoBehaviour
         {
             string temp = allItems[smallestDistanceIndex].name.Substring(1);
             itemInHandType = items[temp]["itemType"];
+			//LADE DROPPPPABLE BOOL todo							
             if (itemInHandType == "gun")
             {
                 dropItem(itemInHandId);
@@ -125,7 +126,7 @@ public class item : MonoBehaviour
 
     public void dropItem(string itemId)
     {
-        if (itemInHandId != "0")
+        if (itemInHandId != "0")//todo if dropabble
         {
             audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/drop"), spieler);//drop sound effect
             //Stop current Reload

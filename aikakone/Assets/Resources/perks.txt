@@ -1,0 +1,27 @@
+{
+  "1": {
+    "perkName": "regenerate",
+    "perkValueMin": 150,
+    "perkValueMax": 300,
+    "perkUsageRate": 800,
+    "perkMovementSpeed": 3,
+    "perkRunningSpeed": 10,
+    "perkFireRateMin": 100,
+    "perkWeaponDamage": 50,
+    "perkMaxAmmoCapacity": 30,
+    "perkRegenRate": 15,
+    "perkType": "non-fight"
+  }
+  "2": {
+    "perkName": "conjure",
+    "perkValueMin": 250,
+    "perkValueMax": 500,
+    "perkUsageRate": 800,
+    "perkMovementSpeed": 2,
+    "perkRunningSpeed": 7,
+    "perkFireRateMin": 10,
+    "perkWeaponDamage": 60,
+    "perkMaxAmmoCapacity": 6,
+    "perkType": "fight"
+  }
+}

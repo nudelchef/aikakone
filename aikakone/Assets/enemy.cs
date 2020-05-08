@@ -9,11 +9,14 @@ using static audioManager;
 using static poolManager;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
 using static userInterface;
+using UnityEngine;
 
 public class enemy : MonoBehaviour
 {
     JSONNode enemyJSON;
+	JSONNode perks;
     JSONNode items;
     public GameObject spieler;
     public int spielerLeben = 100;
@@ -29,18 +32,40 @@ public class enemy : MonoBehaviour
     public float health = 100f;
     public string enemyID;
     public int timeWonInSeconds;
-
+    public bool droppable;
+    public bool eliteEnemy;
     public string itemId;
     public string itemType;
-    public string textureDeadName; //TODO USE THIS TEXTURE IF ENEMY DIES
+    public string textureDeadName;
     public bool justDied = true;
 
-    //vars for shooting
+    //vars for elite-enemies
+    public int perk;
+    public int perkValue;
+    private float lastUsed = 0;
+    public float perkUsageRate;
+    public string perkName;
+    public string perkID;
+    public int perkValueMin;
+    public int perkValueMax;
+    public int perkWeaponDamage;
+    public float perkFireRateMin;
+    public float perkMaxAmmoCapacity;
+    public float perkMovementSpeed;
+    public float perkRunningSpeed;
+    public int perkConjureSlots = 0;
+    public int perkBonusConjureSlots = -1;
+    private float maxHealth;
+    public string perkType;
+
+
+
+   //vars for shooting
     private Vector3 casingVelocity;
     private Vector3 target;
     private float lastShot = 0;
     public float bulletSpeed = 3000f;
-    public float feuerRateMin = 450f;
+    public float feuerRateMin;
     public float maxAmmoCapacity;
     public float reloadTime;
     public float ammoCapacity;
@@ -55,7 +80,7 @@ public class enemy : MonoBehaviour
     //vars for melee
     public bool isEnemyMelee = false;
     public float meleeRateMin = 120f;
-    private int weaponDamage;
+    public int weaponDamage;
 
     private Vector3 targetPosition;
     private bool searchRunning = false;
@@ -77,6 +102,38 @@ public class enemy : MonoBehaviour
         return b;
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                                                                              //
+    //           Got it from dotnet-snippets.de/snippet/runden-vor-dem-komma/12063                  //
+    //   All Rights belong to the respected Owner. (aka I try to not take credit for this method)   //                                                                 //
+    //                                                                                              //
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// Method to round down a digit.
+    /// </summary>
+    /// <param name="input"> Object to round </param>
+    /// <param name="length"> Length you want to round down. 
+    /// <para>1 = Tens-Digi Digits </para> 
+    /// <para>2 = Hundrets-Digits </para>
+    /// <para>3 = Thousands-Digit</para> </param>
+    /// <returns></returns>
+
+    public static int overround(object input, int length = 0)
+    {
+        if (input is int | input is double | input is decimal | input is float)
+        {
+            double value = System.Convert.ToDouble(input);
+            int div = (int)System.Math.Pow(10, length);
+            return ((int)System.Math.Round(value / div, 0) * div);
+        }
+        throw new System.ArgumentException("Input is not numeric");
+    }
+
+
+
+
     void Start()
     {
         Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
@@ -95,16 +152,16 @@ public class enemy : MonoBehaviour
         enemyJSON = JSON.Parse((Resources.Load("enemy") as TextAsset).text);
 
         itemId = enemyJSON[enemyID]["itemId"];
+        eliteEnemy = enemyJSON[enemyID]["eliteEnemy"];
+        droppable = items[itemId]["droppable"];
         movementSpeed = float.Parse(enemyJSON[enemyID]["movementSpeed"]);
         runingSpeed = float.Parse(enemyJSON[enemyID]["runningSpeed"]);
         health = float.Parse(enemyJSON[enemyID]["enemyHealth"]);
-
-
-
         textureDeadName = enemyJSON[enemyID]["textureDeadName"];
         enemyPrecision = float.Parse(enemyJSON[enemyID]["enemyPrecision"]);
         timeWonInSeconds = int.Parse(enemyJSON[enemyID]["timeWonInSeconds"]);
-
+        reloadSoundName = items[itemId]["reloadSoundName"];
+        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureName"]); //Sets texture																   
         itemType = items[itemId]["itemType"];
         if (itemType == "melee")
         {
@@ -117,11 +174,51 @@ public class enemy : MonoBehaviour
             maxAmmoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
             ammoCapacity = maxAmmoCapacity;
             weaponDamage = int.Parse(items[itemId]["weaponDamage"]);
+			feuerRateMin = int.Parse(items[itemId]["feuerRateMin"]);
             range = float.Parse(items[itemId]["range"]);
         }
 
-        reloadSoundName = items[itemId]["reloadSoundName"];
-        this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureName"]); //Sets texture
+
+        //If it's an elite-enemy
+        eliteEnemy = true;
+        if (eliteEnemy)
+        {
+            perks = JSON.Parse((Resources.Load("perks") as TextAsset).text);
+			
+            //get a random "perk" by perks.txt
+            perkID = Random.Range(1, 2).ToString();
+            perkName = perks[perkID]["perkName"];
+            perkValueMin = int.Parse(perks[perkID]["perkValueMin"]);
+            perkValueMax = int.Parse(perks[perkID]["perkValueMax"]);
+            perkUsageRate = float.Parse(perks[perkID]["perkUsageRate"]);
+            perkMovementSpeed = float.Parse(perks[perkID]["perkMovementSpeed"]);
+            perkRunningSpeed = float.Parse(perks[perkID]["perkRunningSpeed"]);
+            perkMaxAmmoCapacity = float.Parse(perks[perkID]["perkMaxAmmoCapacity"]);
+            perkFireRateMin = float.Parse(perks[perkID]["perkFireRateMin"]);
+            perkWeaponDamage = int.Parse(perks[perkID]["perkWeaponDamage"]);
+            perkType = perks[perkID]["perkType"];
+
+            if(perkType == "fight")
+            {
+                if(perkName == "conjure")
+                {
+                    perkBonusConjureSlots++;
+                }
+            }
+
+            //perk values and buffs/nerfs are getting set
+            perkValue = Random.Range(perkValueMin, perkValueMax);
+            perkValue = enemy.overround(perkValue, 1);
+            this.health += perkValue;
+            this.movementSpeed += perkMovementSpeed;
+            this.runingSpeed += perkRunningSpeed;
+            this.weaponDamage += perkWeaponDamage;
+            this.maxAmmoCapacity += perkMaxAmmoCapacity;
+            this.feuerRateMin += perkFireRateMin;
+        }
+
+        maxHealth = health;
+        Debug.Log("Max Health:" + this.health.ToString());
 
         //If there are no patrol points, prepare to start searchrunning
         if (patrolPoints.Length < 1)
@@ -141,7 +238,7 @@ public class enemy : MonoBehaviour
                 this.GetComponent<Renderer>().material = Resources.Load<Material>("enemyTextures/" + enemyJSON[enemyID]["textureDeadName"]); //sets corpse-texture
                 agent.Stop(); //let's it stop moving
 
-                if(this.itemId.ToString() != "0" )
+                if (droppable)
                 {
                     GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItem(this.itemId.ToString(), (this.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)))); //Spawn item mit der itemId 1 und den Koordinaten X:0 Y:1.5 Z:0
                     itemObject.GetComponent<itemStats>().ammoLeft = ammoCapacity; //Ammo the enemy had in stock while dying
@@ -151,6 +248,13 @@ public class enemy : MonoBehaviour
                 countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
                 userInterface.highscore = userInterface.highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore
                 userInterface.enemiesDefeated++;
+
+
+                //If it was a conjured "Lesser Demon" which died, the Conjurer gets a ConjureSlot back
+                if (enemyID == "5")
+                {
+                    perkConjureSlots--;
+                }
                 justDied = false;
             }
             else //if it didn't just died, there's nothing to do for it
@@ -159,6 +263,13 @@ public class enemy : MonoBehaviour
             }
         }
 
+        //perks which are used if they have usage without being in a fight
+        if (perkType == "non-fight")
+        {
+            Invoke(perkName, 0f);
+            //Debug.Log("Health:" + this.health.ToString());
+        }
+		
         //enemy sight
         Collider[] objectsInRadius = Physics.OverlapSphere(transform.position, viewRadius);
         foreach (Collider objects in objectsInRadius)
@@ -400,5 +511,37 @@ public class enemy : MonoBehaviour
         yield return new WaitForSeconds(reloadTime / 1000f);
         ammoCapacity = maxAmmoCapacity;
         isReloading = false;
+    }
+	void regenerate()
+    {
+        //if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate))
+        //{
+            if (this.health < this.maxHealth)
+            {
+                if ((this.health + perks[perkID]["perkRegenRate"]) <= this.maxHealth)
+            {
+                    this.health += perks[perkID]["perkRegenRate"];
+                }
+                else
+                {
+                    this.health = this.maxHealth;
+                }
+            }
+        //}
+        lastUsed = Time.time * 1000;
+
+    }
+    void conjuring()
+    {
+        //if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate)) TODO LOUIS
+        //{
+            if (perkConjureSlots <= 2)
+            {
+                for (int x = perkConjureSlots; x <= 3 * perkBonusConjureSlots; x++)
+                {
+                enemy.spawnEnemy("5", (this.transform.position + new Vector3(Random.Range(1f, 2f), 0f, Random.Range(1f, 2f))), 0f);
+                }
+            }
+        //}
     }
 }

@@ -9,7 +9,8 @@
     "animationId": "0",
     "timeWonInSeconds": "20",
     "textureName": "1",
-    "textureDeadName": "1"
+    "textureDeadName": "1",
+    "eliteEnemy": false
   },
   "2": {
     "enemyName": "Zombie-Soldier",
@@ -21,7 +22,8 @@
     "animationId": "0",
     "timeWonInSeconds": "25",
     "textureName": "2",
-    "textureDeadName": "2"
+    "textureDeadName": "2",
+    "eliteEnemy": false
   },
   "3": {
     "enemyName": "Servant",
@@ -33,7 +35,8 @@
     "animationId": "0",
     "timeWonInSeconds": "0",
     "textureName": "3",
-    "textureDeadName": "3"
+    "textureDeadName": "3",
+    "eliteEnemy": false
   },
   "4": {
     "enemyName": "Minotaurus",
@@ -45,6 +48,20 @@
     "animationId": "0",
     "timeWonInSeconds": "45",
     "textureName": "4",
-    "textureDeadName": "5"
+    "textureDeadName": "4",
+    "eliteEnemy": false
+  },  
+  "5": {
+    "enemyName": "Lesser Demon",
+    "enemyHealth": "125",
+    "itemId": "0",
+    "enemyPrecision": "0",
+    "movementSpeed": "6",
+    "runningSpeed": "12",
+    "animationId": "0",
+    "timeWonInSeconds": "10",
+    "textureName": "5",
+    "textureDeadName": "5",
+    "eliteEnemy": false
   }
 }
