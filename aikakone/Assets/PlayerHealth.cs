@@ -12,6 +12,7 @@ using System.Net;
 //NEW
 public class PlayerHealth : MonoBehaviour
 {
+    public bool isDead = false;
     public int maxHealth = 3;
     public int currentHealth;
     public GameObject player;
@@ -36,13 +37,14 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
         //death of the player
-        if (currentHealth <= 0 || countdown.timeLeft <= 0)
+        if ( (currentHealth <= 0 || countdown.timeLeft <= 0) && !isDead )
         {
             killPlayer();
         }
     }
     public void killPlayer()
     {
+        this.isDead = true;
         saveHighscore();
         FindObjectOfType<userInterface>().GameOver();
     }
