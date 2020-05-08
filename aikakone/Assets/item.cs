@@ -30,6 +30,7 @@ public class item : MonoBehaviour
 
     public string pickupSound = "pickup";
 
+    public bool droppable = false;
     public string itemInHandId = "";
     public string itemInHandType = "";
     // Start is called before the first frame update
@@ -88,7 +89,7 @@ public class item : MonoBehaviour
         {
             string temp = allItems[smallestDistanceIndex].name.Substring(1);
             itemInHandType = items[temp]["itemType"];
-			//LADE DROPPPPABLE BOOL todo							
+	    droppable = items[temp]["droppable"];							
             if (itemInHandType == "gun")
             {
                 dropItem(itemInHandId);
@@ -126,7 +127,7 @@ public class item : MonoBehaviour
 
     public void dropItem(string itemId)
     {
-        if (itemInHandId != "0")//todo if dropabble
+        if (droppable)
         {
             audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/drop"), spieler);//drop sound effect
             //Stop current Reload
