@@ -150,6 +150,7 @@ public class enemy : MonoBehaviour
 
                 countdown.timeLeft = countdown.timeLeft + timeWonInSeconds; //adds reward-time if enemy is killed
                 userInterface.highscore = userInterface.highscore + timeWonInSeconds; //adds reward-time - which also are the actual points - to the highscore
+                userInterface.enemiesDefeated++;
                 justDied = false;
             }
             else //if it didn't just died, there's nothing to do for it

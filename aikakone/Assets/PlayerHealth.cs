@@ -19,19 +19,6 @@ public class PlayerHealth : MonoBehaviour
     //vars for Highscore-JSON
     public static string name = "";
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //pick up health
-        //TODO: change wall1 to another object
-        if (collision.gameObject.name == "wall1" && currentHealth != maxHealth)
-        {
-            Debug.Log(currentHealth);
-            Destroy(collision.gameObject);
-            currentHealth++;
-            Update();
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -56,9 +43,8 @@ public class PlayerHealth : MonoBehaviour
     }
     public void killPlayer()
     {
-        /*Destroy(player);
-
-        Time.timeScale = 0;*///TODO
+        saveHighscore();
+        FindObjectOfType<userInterface>().GameOver();
     }
 
     public void saveHighscore()     //by Sutorei

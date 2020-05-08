@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class userInterface : MonoBehaviour
 {
 
-    public static int highscore;
+    public static int highscore = 0;
     public GameObject player;
     public PlayerHealth playerHealth;
     public Image[] hearts;
@@ -15,6 +14,12 @@ public class userInterface : MonoBehaviour
     public Sprite emptyHeart;
     private int lastHealth;
     public TextMeshProUGUI highscoreText; //UI Text Object
+
+    bool gameHasEnded = false;
+    public GameObject gameOverScreen;
+    public TextMeshProUGUI gameOverScreenHighscoreText;
+    public TextMeshProUGUI gameOverScreenEnemiesDefeatedText;
+    public static int enemiesDefeated = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -68,5 +73,44 @@ public class userInterface : MonoBehaviour
             }
         }
         lastHealth = playerHealth.currentHealth;
+    }
+
+    public void GameOver(bool hasWon = false)
+    {
+        // If the game has already ended, don't execute the code again
+        if (gameHasEnded)
+        {
+            return;
+        }
+
+        gameOverScreenHighscoreText.text = "Highscore: " + userInterface.highscore.ToString();
+        gameOverScreenEnemiesDefeatedText.text = "Enemies Defeated: " + enemiesDefeated.ToString();
+
+        if (hasWon)
+        {
+            gameOverScreen.SetActive(true);
+            Time.timeScale = 0f;
+            Debug.Log("You Won!");
+        }
+        else
+        {
+            gameOverScreen.SetActive(true);
+            Time.timeScale = 0f;
+            Debug.Log("Game Over");
+        }
+
+        gameHasEnded = true;
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
     }
 }
