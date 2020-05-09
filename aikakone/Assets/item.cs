@@ -155,7 +155,6 @@ public class item : MonoBehaviour
         spielerCrosshair.useSoundName = items[itemId]["useSoundName"];
         spielerCrosshair.reloadSoundName = items[itemId]["reloadSoundName"];
         droppable = items[itemId]["droppable"];
-        print(droppable);
 
         pickupSound = items[itemId]["pickupSoundName"];
 
@@ -175,7 +174,6 @@ public class item : MonoBehaviour
         spielerMelee.useSoundName = items[itemId]["useSoundName"];
         spielerCrosshair.itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
         droppable = items[itemId]["droppable"];
-        print(droppable);
 
         pickupSound = items[itemId]["pickupSoundName"];
 
