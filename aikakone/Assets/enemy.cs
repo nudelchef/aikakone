@@ -514,8 +514,8 @@ public class enemy : MonoBehaviour
     }
 	void regenerate()
     {
-        //if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate))
-        //{
+        if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate))
+        {
             if (this.health < this.maxHealth)
             {
                 if ((this.health + perks[perkID]["perkRegenRate"]) <= this.maxHealth)
@@ -527,14 +527,14 @@ public class enemy : MonoBehaviour
                     this.health = this.maxHealth;
                 }
             }
-        //}
-        lastUsed = Time.time * 1000;
+	    lastUsed = Time.time * 1000;
+        }
 
     }
     void conjuring()
     {
-        //if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate)) TODO LOUIS
-        //{
+        if ((lastUsed - (Time.time * 1000)) <= -(60000 / perkUsageRate))
+        {
             if (perkConjureSlots <= 2)
             {
                 for (int x = perkConjureSlots; x <= 3 * perkBonusConjureSlots; x++)
@@ -542,6 +542,7 @@ public class enemy : MonoBehaviour
                 enemy.spawnEnemy("5", (this.transform.position + new Vector3(Random.Range(1f, 2f), 0f, Random.Range(1f, 2f))), 0f);
                 }
             }
-        //}
+	    lastUsed = Time.time * 1000;
+        }
     }
 }
