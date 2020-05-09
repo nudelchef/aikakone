@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -89,7 +89,6 @@ public class item : MonoBehaviour
         {
             string temp = allItems[smallestDistanceIndex].name.Substring(1);
             itemInHandType = items[temp]["itemType"];
-	    droppable = items[temp]["droppable"];							
             if (itemInHandType == "gun")
             {
                 dropItem(itemInHandId);
@@ -105,7 +104,6 @@ public class item : MonoBehaviour
                 addMeleeToInventory(temp);
                 audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
             }
-
 
             Destroy(allItems[smallestDistanceIndex]);
         }
@@ -156,6 +154,8 @@ public class item : MonoBehaviour
         spielerCrosshair.itemId = itemId;
         spielerCrosshair.useSoundName = items[itemId]["useSoundName"];
         spielerCrosshair.reloadSoundName = items[itemId]["reloadSoundName"];
+        droppable = items[itemId]["droppable"];
+        print(droppable);
 
         pickupSound = items[itemId]["pickupSoundName"];
 
@@ -174,6 +174,8 @@ public class item : MonoBehaviour
         spielerMelee.itemId = itemId;
         spielerMelee.useSoundName = items[itemId]["useSoundName"];
         spielerCrosshair.itemType = items[itemId]["itemType"].ToString().ToLower().Trim('"');
+        droppable = items[itemId]["droppable"];
+        print(droppable);
 
         pickupSound = items[itemId]["pickupSoundName"];
 
