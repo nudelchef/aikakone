@@ -506,6 +506,7 @@ MonoBehaviour:
   spieler: {fileID: 463605389}
   pickupRange: 1
   pickupSound: pickup
+  droppable: 0
   itemInHandId: 
   itemInHandType: 
 --- !u!114 &463605399
@@ -536,10 +537,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d30074fb64ab0046b68f9edca23029b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   maxHealth: 3
   currentHealth: 3
   player: {fileID: 0}
-  name: Test
 --- !u!82 &463605401
 AudioSource:
   m_ObjectHideFlags: 0
@@ -719,7 +720,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.7372549, g: 0.45490196, b: 0.6676062, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -773,7 +774,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51a9a0e8bf81d0346ada6e97d0e79b39, type: 3}
   m_Name: 

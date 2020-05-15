@@ -39,12 +39,12 @@ public class item : MonoBehaviour
         spielerCrosshair = spieler.GetComponent<crosshair>();
         spielerMelee = spieler.GetComponent<melee>();
         ammoTextMagazin = GameObject.Find("ammoCapacityText").GetComponent<magazin>();
-
-        enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-
         items = JSON.Parse((Resources.Load("items") as TextAsset).text);
+
+        //enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        //enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        //objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        this.spawnItem("7", new Vector3(5f, 0, 0));
 
         addMeleeToInventory("0");
     }
@@ -102,6 +102,12 @@ public class item : MonoBehaviour
             {
                 dropItem(itemInHandId);
                 addMeleeToInventory(temp);
+                audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
+            } 
+            else if (itemInHandType == "special")
+            {
+                pickupSound = items[temp]["pickupSoundName"];
+                Invoke(items[temp]["itemName"], 0f);
                 audioManager.playClipOnObject(Resources.Load<AudioClip>("audio/itemSounds/" + pickupSound), spieler);//pickup sound effect
             }
 
@@ -182,5 +188,12 @@ public class item : MonoBehaviour
 
         //Update Magazin Info
         ammoTextMagazin.Start();
+    }
+
+    //Special Item Functions
+    void exitLevel()
+    {
+        //TODO
+        print("asga");
     }
 }

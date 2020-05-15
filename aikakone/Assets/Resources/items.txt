@@ -81,5 +81,13 @@
     "pickupSoundName": "pickup",
     "textureName": "6",
     "droppable": true
+  },
+  "7": {
+    "itemName": "exitLevel",
+    "itemType": "special",
+    "useSoundName": "1",
+    "pickupSoundName": "pickup",
+    "textureName": "1",
+    "droppable": false
   }
 }
