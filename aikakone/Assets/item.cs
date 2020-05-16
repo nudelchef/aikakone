@@ -193,7 +193,6 @@ public class item : MonoBehaviour
     //Special Item Functions
     void exitLevel()
     {
-        //TODO
-        print("asga");
+        FindObjectOfType<userInterface>().GameOver(true);
     }
 }
