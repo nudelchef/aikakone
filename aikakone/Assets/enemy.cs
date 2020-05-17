@@ -188,13 +188,8 @@ public class enemy : MonoBehaviour
         }
 
         //difficulty-multiplier gets applied
-        float temp = (float)weaponDamage;
-        temp *= difficultyDamageMultiplier;
-        weaponDamage = (int)temp;
-
-        temp = (float)timeWonInSeconds;
-        temp *= difficultyTimeMultiplier;
-        timeWonInSeconds = (int)temp;
+        weaponDamage = (weaponDamage * (int)(difficultyDamageMultiplier*100))/100;
+        timeWonInSeconds = (timeWonInSeconds * (int)(difficultyTimeMultiplier*100))/100;
 
         //If it's an elite-enemy
         eliteEnemy = true;

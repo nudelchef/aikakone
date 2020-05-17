@@ -15,6 +15,8 @@ public class item : MonoBehaviour
     JSONNode items;
     public GameObject itemPrefab;
 
+    JSONNode difficulty;
+
     public GameObject spieler;
     public float pickupRange = 1;
     private bool itemInHand = false;
@@ -30,6 +32,7 @@ public class item : MonoBehaviour
 
     public string pickupSound = "pickup";
 
+    public float difficultyPlayerDamageMultiplier;
     public bool droppable = false;
     public string itemInHandId = "";
     public string itemInHandType = "";
@@ -41,8 +44,11 @@ public class item : MonoBehaviour
         ammoTextMagazin = GameObject.Find("ammoCapacityText").GetComponent<magazin>();
         items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
-        //enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        //enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        difficulty = JSON.Parse((Resources.Load("difficulty") as TextAsset).text);
+        difficultyPlayerDamageMultiplier = float.Parse(difficulty["1"]["difficultyPlayerDamageMultiplier"]);
+
+        enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         //objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         this.spawnItem("7", new Vector3(5f, 0, 0), Random.Range(-360f, 360f));
 
@@ -150,7 +156,7 @@ public class item : MonoBehaviour
     public void addGunToInventory(string itemId)
     {
         //Set all Weapon stats
-        spielerCrosshair.weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
+        spielerCrosshair.weaponDamage = float.Parse(items[itemId]["weaponDamage"]) * difficultyPlayerDamageMultiplier;
         spielerCrosshair.feuerRateMin = float.Parse(items[itemId]["feuerRateMin"]);
         spielerCrosshair.ammoCapacity = float.Parse(items[itemId]["ammoCapacity"]);
         spielerCrosshair.magCapacity = float.Parse(items[itemId]["magCapacity"]);
@@ -173,7 +179,7 @@ public class item : MonoBehaviour
     public void addMeleeToInventory(string itemId)
     {
         //Set all Weapon stats
-        spielerMelee.weaponDamage = float.Parse(items[itemId]["weaponDamage"]);
+        spielerMelee.weaponDamage = float.Parse(items[itemId]["weaponDamage"]) * difficultyPlayerDamageMultiplier;
         spielerMelee.meleeRange = float.Parse(items[itemId]["range"]);
         spielerMelee.meleeRateMin = float.Parse(items[itemId]["meleeRateMin"]);
         spielerMelee.itemId = itemId;
