@@ -18,6 +18,7 @@ public class enemy : MonoBehaviour
     JSONNode enemyJSON;
 	JSONNode perks;
     JSONNode items;
+    JSONNode difficulty;
     public GameObject spieler;
     public int spielerLeben = 100;
     private float spielerEntferung;
@@ -38,6 +39,8 @@ public class enemy : MonoBehaviour
     public string itemType;
     public string textureDeadName;
     public bool justDied = true;
+    public float difficultyDamageMultiplier;
+    public float difficultyTimeMultiplier;
 
     //vars for elite-enemies
     public int perk;
@@ -140,6 +143,12 @@ public class enemy : MonoBehaviour
 
         spieler = GameObject.Find("spieler");
 
+        //loading difficulty.json
+        difficulty = JSON.Parse((Resources.Load("difficulty") as TextAsset).text);
+        difficultyDamageMultiplier = float.Parse(difficulty["1"]["difficultyDamageMultiplier"]);
+        difficultyTimeMultiplier = float.Parse(difficulty["1"]["difficultyTimeMultiplier"]);
+
+
         //loading item.json
         items = JSON.Parse((Resources.Load("items") as TextAsset).text);
 
@@ -178,6 +187,14 @@ public class enemy : MonoBehaviour
             range = float.Parse(items[itemId]["range"]);
         }
 
+        //difficulty-multiplier gets applied
+        float temp = (float)weaponDamage;
+        temp *= difficultyDamageMultiplier;
+        weaponDamage = (int)temp;
+
+        temp = (float)timeWonInSeconds;
+        temp *= difficultyTimeMultiplier;
+        timeWonInSeconds = (int)temp;
 
         //If it's an elite-enemy
         eliteEnemy = true;
@@ -240,7 +257,7 @@ public class enemy : MonoBehaviour
 
                 if (droppable)
                 {
-                    GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItem(this.itemId.ToString(), (this.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3)))); //Spawn item mit der itemId 1 und den Koordinaten X:0 Y:1.5 Z:0
+                    GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItem(this.itemId.ToString(), (this.transform.position + new Vector3(Random.Range(-3, 3), 0)), Random.Range(-360f, 360f)); //Spawn item mit der itemId 1 und den Koordinaten X:0 Y:1.5 Z:0
                     itemObject.GetComponent<itemStats>().ammoLeft = ammoCapacity; //Ammo the enemy had in stock while dying
                     itemObject.GetComponent<itemStats>().magLeft = Random.Range(1, 3) + Random.Range(0, 1); //Random Magazine-Count
                 }

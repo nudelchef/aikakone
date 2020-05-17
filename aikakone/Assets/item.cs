@@ -44,7 +44,7 @@ public class item : MonoBehaviour
         //enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         //enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         //objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        this.spawnItem("7", new Vector3(5f, 0, 0));
+        this.spawnItem("7", new Vector3(5f, 0, 0), Random.Range(-360f, 360f));
 
         addMeleeToInventory("0");
     }
@@ -119,11 +119,11 @@ public class item : MonoBehaviour
         }
     }
 
-    public GameObject spawnItem(string itemId,Vector3 position)
+    public GameObject spawnItem(string itemId,Vector3 position, float rotation)
     {
         GameObject b = Instantiate(itemPrefab) as GameObject;//Erstellt Objekt 
         b.transform.position = position; //Setzt position
-        b.transform.rotation = Quaternion.Euler(0f, Random.Range(-360f, 360f), 0f); //Setzt zufällige rotation
+        b.transform.rotation = Quaternion.Euler(0f, rotation, 0f); //Setzt zufällige rotation
         b.name = "i"+itemId; //Setzt Objektname
         b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + items[itemId]["textureName"].ToString().Trim('"')); //Setzt Texture
         return b;
@@ -137,7 +137,7 @@ public class item : MonoBehaviour
             //Stop current Reload
             ammoTextMagazin.stopReload();
             //Create Item Object
-            GameObject itemObject = spawnItem(itemId, spieler.transform.position); //Spawn item
+            GameObject itemObject = spawnItem(itemId, spieler.transform.position, Random.Range(-360f, 360f)); //Spawn item
             itemStats itemObjectStats = itemObject.GetComponent<itemStats>();
             itemObjectStats.ammoLeft = ammoTextMagazin.ammoLeft; //Setzt übrige Munition des Item auf derzeitige übrige Munition
             itemObjectStats.magLeft = ammoTextMagazin.magLeft; //Setzt übrige Magazine des Item auf derzeitige übrige Magazine
