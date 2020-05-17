@@ -1,0 +1,7 @@
+{
+  "1": {
+    "difficultyName": "normal",
+    "difficultyDamageMultiplier": "1.0",
+    "difficultyTimeMultiplier": "1.0"
+  }
+}
