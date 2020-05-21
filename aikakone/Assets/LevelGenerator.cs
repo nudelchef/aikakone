@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.U2D;
+using SimpleJSON;
+using static item;
 
 public class LevelGenerator : MonoBehaviour {
 	public enum gridSpace {empty, floor, wall};
@@ -20,7 +24,20 @@ public class LevelGenerator : MonoBehaviour {
 	float percentToFill = 0.2f; 
 	public SpriteAtlas atlas;
 	public GameObject cubePrefab;
+
+
+	//Item & Enemy Stuff
+	JSONNode items;
+	public int maxItemsToSpawn;
+	public string[] itemsToSpawnCertainIDs;
+	public int[] itemsToSpawnCertainAmount;
+	System.Random random = new System.Random();
+
 	void Start () {
+		maxItemsToSpawn = 10;
+		itemsToSpawnCertainIDs = new string[2] { "2", "1" };
+		itemsToSpawnCertainAmount = new int[2] { 1, 1 };
+
 		Setup();
 		CreateFloors();
 		CreateWalls();
@@ -28,6 +45,7 @@ public class LevelGenerator : MonoBehaviour {
 		addCornerWalls();
 		fixSingleSpaces();
 		SpawnLevel();
+		SpawnItems();
 	}
 	void Setup(){
 		//find grid size
@@ -69,14 +87,14 @@ public class LevelGenerator : MonoBehaviour {
 			int numberChecks = walkers.Count; //might modify count while in this loop
 			for (int i = 0; i < numberChecks; i++){
 				//only if its not the only one, and at a low chance
-				if (Random.value < chanceWalkerDestoy && walkers.Count > 1){
+				if (UnityEngine.Random.value < chanceWalkerDestoy && walkers.Count > 1){
 					walkers.RemoveAt(i);
 					break; //only destroy one per iteration
 				}
 			}
 			//chance: walker pick new direction
 			for (int i = 0; i < walkers.Count; i++){
-				if (Random.value < chanceWalkerChangeDir){
+				if (UnityEngine.Random.value < chanceWalkerChangeDir){
 					walker thisWalker = walkers[i];
 					thisWalker.dir = RandomDirection();
 					walkers[i] = thisWalker;
@@ -86,7 +104,7 @@ public class LevelGenerator : MonoBehaviour {
 			numberChecks = walkers.Count; //might modify count while in this loop
 			for (int i = 0; i < numberChecks; i++){
 				//only if # of walkers < max, and at a low chance
-				if (Random.value < chanceWalkerSpawn && walkers.Count < maxWalkers){
+				if (UnityEngine.Random.value < chanceWalkerSpawn && walkers.Count < maxWalkers){
 					//create a walker 
 					walker newWalker = new walker();
 					newWalker.dir = RandomDirection();
@@ -278,7 +296,7 @@ public class LevelGenerator : MonoBehaviour {
 	}
 	Vector2 RandomDirection(){
 		//pick random int between 0 and 3
-		int choice = Mathf.FloorToInt(Random.value * 3.99f);
+		int choice = Mathf.FloorToInt(UnityEngine.Random.value * 3.99f);
 		//use that int to chose a direction
 		switch (choice){
 			case 0:
@@ -430,6 +448,63 @@ public class LevelGenerator : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void SpawnItems()
+    {
+		items = JSON.Parse((Resources.Load("items") as TextAsset).text);
+		int itemsSpawned = 0;
+
+		//Create Array filled with 0 to show the amount of items already spawned
+		int[] itemsToSpawnCertainAmountSpawned = new int[itemsToSpawnCertainAmount.Length+1];
+		for(int i = 0; i < itemsToSpawnCertainAmountSpawned.Length; i++)
+        {
+			itemsToSpawnCertainAmountSpawned[i] = 0;
+		}
+
+		int itemsToSpawnCertainAmountSum = itemsToSpawnCertainAmount.Sum();
+		while (itemsSpawned < maxItemsToSpawn || itemsToSpawnCertainAmountSpawned.Sum() < itemsToSpawnCertainAmountSum)
+		{
+			for (int x = 0; x < roomWidth; x++)
+			{
+				for (int y = 0; y < roomHeight; y++)
+				{
+					//Only Spawn sometimes
+					if (UnityEngine.Random.Range(0f, 1f) == 0f && grid[x, y] == gridSpace.floor)
+					{
+						//Decide to spawn special Item or random Item
+						int randomInt = UnityEngine.Random.Range(0, 1);
+						if (itemsSpawned < maxItemsToSpawn && randomInt == 0)
+						{
+							int randomItemId;
+							do
+							{
+								randomItemId = UnityEngine.Random.Range(0, items.Count);
+							}
+							while (itemsToSpawnCertainIDs.Contains(randomItemId.ToString()));
+
+							GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItemWithFullAmmo(randomItemId.ToString(), new Vector3(x, 0f, y), UnityEngine.Random.Range(-360f, 360f)); //Spawn item
+							itemsSpawned++;
+
+						}
+						else if (itemsToSpawnCertainAmountSpawned.Sum() < itemsToSpawnCertainAmountSum)
+						{
+							string randomItemId;
+							int indexOfRandomItemID;
+							do
+							{
+								randomItemId = itemsToSpawnCertainIDs[random.Next(0, itemsToSpawnCertainIDs.Length)];
+								indexOfRandomItemID = Array.IndexOf(itemsToSpawnCertainIDs, randomItemId.ToString());
+							}
+							while (itemsToSpawnCertainAmountSpawned[indexOfRandomItemID] >= itemsToSpawnCertainAmount[indexOfRandomItemID]);
+
+							GameObject itemObject = GameObject.Find("spieler").GetComponent<item>().spawnItemWithFullAmmo(randomItemId.ToString(), new Vector3(x, 0f, y), UnityEngine.Random.Range(-360f, 360f)); //Spawn item
+							itemsToSpawnCertainAmountSpawned[indexOfRandomItemID] =+ 1;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

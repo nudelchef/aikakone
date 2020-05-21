@@ -47,10 +47,10 @@ public class item : MonoBehaviour
         difficulty = JSON.Parse((Resources.Load("difficulty") as TextAsset).text);
         difficultyPlayerDamageMultiplier = float.Parse(difficulty["1"]["difficultyPlayerDamageMultiplier"]);
 
-        enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        //enemy.spawnEnemy("1", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
+        //enemy.spawnEnemy("2", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
         //objects.spawnObject("0", new Vector3(0, 0, 0), 0f); //temporär -> Muss später in Level-Init
-        this.spawnItem("7", new Vector3(5f, 0, 0), Random.Range(-360f, 360f));
+        //this.spawnItem("7", new Vector3(5f, 0, 0), Random.Range(-360f, 360f));
 
         addMeleeToInventory("0");
     }
@@ -133,6 +133,17 @@ public class item : MonoBehaviour
         b.name = "i"+itemId; //Setzt Objektname
         b.GetComponent<Renderer>().material = Resources.Load<Material>("itemTextures/" + items[itemId]["textureName"].ToString().Trim('"')); //Setzt Texture
         return b;
+    }
+
+    public GameObject spawnItemWithFullAmmo(string itemId, Vector3 position, float rotation)
+    {
+        GameObject itemObject = this.spawnItem(itemId, position, rotation); //Spawn item
+        if(items[itemId]["itemType"] == "gun")
+        {
+            itemObject.GetComponent<itemStats>().ammoLeft = int.Parse(items[itemId]["ammoCapacity"]);
+            itemObject.GetComponent<itemStats>().magLeft = int.Parse(items[itemId]["magCapacity"]);
+        }
+        return itemObject;
     }
 
     public void dropItem(string itemId)

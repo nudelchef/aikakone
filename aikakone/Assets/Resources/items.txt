@@ -54,7 +54,7 @@
     "textureName": "3",
     "droppable": true
   },
-  "5": {
+  "4": {
     "itemName": "Revolver",
     "itemType": "gun",
     "range": "1",
@@ -70,7 +70,7 @@
     "textureName": "5",
     "droppable": true
   },
-  "6": {
+  "5": {
     "itemName": "Sword",
     "weaponDamage": "80",
     "range": "1",
@@ -82,7 +82,7 @@
     "textureName": "6",
     "droppable": true
   },
-  "7": {
+  "6": {
     "itemName": "exitLevel",
     "itemType": "special",
     "useSoundName": "1",
