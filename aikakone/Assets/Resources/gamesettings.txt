@@ -1,1 +1,0 @@
-{"resolution":-1,"fullscreen":true,"quality":3,"masterVolume":0,"musicVolume":0,"effectsVolume":0,"name":""}
